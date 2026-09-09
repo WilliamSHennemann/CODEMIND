@@ -3,6 +3,9 @@ using TMPro;
 
 public class NomeDoObjeto2D : MonoBehaviour
 {
+    [Tooltip("OPCIONAL: arraste aqui uma fonte (TMP_FontAsset) para usar em vez da fonte padrão do texto.")]
+    [SerializeField] private TMP_FontAsset fonte;
+
     void Start()
     {
         // Busca o componente de texto que está dentro do Canvas filho
@@ -12,6 +15,10 @@ public class NomeDoObjeto2D : MonoBehaviour
         {
             // Aplica o nome do objeto principal no texto
             texto.text = gameObject.name;
+
+            // Se uma fonte foi escolhida no Inspector, aplica ela também
+            if (fonte != null)
+                texto.font = fonte;
         }
         else
         {

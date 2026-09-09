@@ -38,6 +38,7 @@ public class HackTerminal : MonoBehaviour
     private TMP_InputField commandInput;
     private CameraFocus cameraFocus;
     private HashSet<string> comandosAtivos = new HashSet<string>(System.StringComparer.OrdinalIgnoreCase);
+    private Dictionary<string, AlvoHackeavel> alvoAtivoPorComando = new Dictionary<string, AlvoHackeavel>(System.StringComparer.OrdinalIgnoreCase);
 
     void OnEnable()
     {
@@ -140,37 +141,49 @@ public class HackTerminal : MonoBehaviour
         string nomeComando = parts[0].Trim();
         string valorStr = parts[1].Trim().Trim('"'); // aceita "root" ou root, tanto faz
 
-         AlvoHackeavel alvo = alvos.Find(a =>
-        !string.IsNullOrEmpty(a.comando) &&
-        a.comando.Trim().Equals(nomeComando, System.StringComparison.OrdinalIgnoreCase));
+        // Pega TODAS as entradas que usam esse mesmo nome de comando
+        List<AlvoHackeavel> candidatos = alvos.FindAll(a =>
+            !string.IsNullOrEmpty(a.comando) &&
+            a.comando.Trim().Equals(nomeComando, System.StringComparison.OrdinalIgnoreCase));
 
-    if (alvo != null && !string.IsNullOrEmpty(alvo.contextoNecessario))
-{
-    string[] requisitos = alvo.contextoNecessario.Split(',');
-    foreach (string req in requisitos)
-    {
-        string requisito = req.Trim();
-        if (string.IsNullOrEmpty(requisito)) continue;
+        AlvoHackeavel alvo = null;
 
-        if (!comandosAtivos.Contains(requisito))
+        if (candidatos.Count > 0)
         {
-            Debug.LogWarning($"Você precisa ativar '{requisito}' antes de usar '{nomeComando}'.");
-            LimparCampo();
-            return;
-        }
-    }
-}
+            if (valorStr == "0")
+            {
+                // Fecha exatamente a entrada que foi ativada por esse comando (se soubermos qual foi).
+                if (!alvoAtivoPorComando.TryGetValue(nomeComando, out alvo))
+                {
+                    // Não sabemos qual foi -- provavelmente nunca abriu por aqui. Usa a primeira com objetos como fallback.
+                    alvo = candidatos.Find(a => a.objetos != null && a.objetos.Count > 0);
+                    if (alvo == null)
+                        alvo = candidatos[0];
+                }
+            }
+            else
+            {
+                // Para ABRIR, sim, olha contexto e valor esperado
+                alvo = candidatos.Find(a => ContextoSatisfeito(a) && ValorCombina(a, valorStr));
 
-    // Se o alvo exige um valor específico, confere se bateu
-    if (alvo != null && !string.IsNullOrEmpty(alvo.valorEsperado))
-    {
-        if (!valorStr.Equals(alvo.valorEsperado, System.StringComparison.OrdinalIgnoreCase))
-        {
-            Debug.LogWarning($"Valor incorreto para '{nomeComando}'. Esperado algo diferente.");
-            LimparCampo();
-            return;
+                if (alvo == null)
+                {
+                    // Nenhuma bateu -- damos um aviso mais específico se o motivo for contexto faltando
+                    AlvoHackeavel semContexto = candidatos.Find(a => !ContextoSatisfeito(a));
+                    if (semContexto != null)
+                    {
+                        Debug.LogWarning($"Você precisa ativar '{semContexto.contextoNecessario}' antes de usar '{nomeComando}' desse jeito.");
+                    }
+                    else
+                    {
+                        Debug.LogWarning($"Valor incorreto para '{nomeComando}'. Esperado algo diferente.");
+                    }
+
+                    LimparCampo();
+                    return;
+                }
+            }
         }
-    }
 
     // Continua tratando "0" como desativar, qualquer outra coisa como ativar
     bool estado = valorStr != "0";
@@ -207,9 +220,16 @@ public class HackTerminal : MonoBehaviour
     }
 
     if (estado)
+    {
         comandosAtivos.Add(nomeComando);
+        if (alvo != null)
+            alvoAtivoPorComando[nomeComando] = alvo;
+    }
     else
+    {
         comandosAtivos.Remove(nomeComando);
+        alvoAtivoPorComando.Remove(nomeComando);
+    }
 
     if (estado && cameraFocus != null && (alvo == null || alvo.moverCamera) && primeiroValido != null)
     {
@@ -224,5 +244,33 @@ public class HackTerminal : MonoBehaviour
         if (commandInput == null) return;
         commandInput.text = "";
         commandInput.ActivateInputField();
+    }
+
+    // Confere se todos os requisitos de contexto desse alvo específico já foram ativados
+    private bool ContextoSatisfeito(AlvoHackeavel a)
+    {
+        if (string.IsNullOrEmpty(a.contextoNecessario)) return true;
+
+        string[] requisitos = a.contextoNecessario.Split(',');
+        foreach (string req in requisitos)
+        {
+            string requisito = req.Trim();
+            if (string.IsNullOrEmpty(requisito)) continue;
+
+            if (!comandosAtivos.Contains(requisito))
+                return false;
+        }
+
+        return true;
+    }
+
+    // Confere se o valor digitado bate com o valor esperado desse alvo específico
+    private bool ValorCombina(AlvoHackeavel a, string valorStr)
+    {
+        // "0" sempre serve para FECHAR, mesmo que o valor exigido pra abrir seja outro (ex: "root")
+        if (valorStr == "0") return true;
+
+        if (string.IsNullOrEmpty(a.valorEsperado)) return true;
+        return valorStr.Equals(a.valorEsperado, System.StringComparison.OrdinalIgnoreCase);
     }
 }
