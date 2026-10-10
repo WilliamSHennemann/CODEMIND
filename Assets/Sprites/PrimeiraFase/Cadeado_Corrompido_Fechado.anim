@@ -6,7 +6,7 @@ AnimationClip:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: CadeadoAni
+  m_Name: Cadeado_Corrompido_Fechado
   serializedVersion: 7
   m_Legacy: 0
   m_Compressed: 0
@@ -21,11 +21,11 @@ AnimationClip:
   - serializedVersion: 2
     curve:
     - time: 0
-      value: {fileID: 7145198348311737387, guid: 9e44b2f1ed38d2441a3fbdef8c8f3a79, type: 3}
+      value: {fileID: 564910628626316478, guid: 755f68cb1f1e67843b137bfb285f5ba7, type: 3}
     - time: 0.083333336
-      value: {fileID: -3708508325519384304, guid: 9e44b2f1ed38d2441a3fbdef8c8f3a79, type: 3}
+      value: {fileID: 15096963018612284, guid: 755f68cb1f1e67843b137bfb285f5ba7, type: 3}
     - time: 0.16666667
-      value: {fileID: 3106341853739790030, guid: 9e44b2f1ed38d2441a3fbdef8c8f3a79, type: 3}
+      value: {fileID: -8358696960088838699, guid: 755f68cb1f1e67843b137bfb285f5ba7, type: 3}
     attribute: m_Sprite
     path: 
     classID: 212
@@ -48,9 +48,9 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     pptrCurveMapping:
-    - {fileID: 7145198348311737387, guid: 9e44b2f1ed38d2441a3fbdef8c8f3a79, type: 3}
-    - {fileID: -3708508325519384304, guid: 9e44b2f1ed38d2441a3fbdef8c8f3a79, type: 3}
-    - {fileID: 3106341853739790030, guid: 9e44b2f1ed38d2441a3fbdef8c8f3a79, type: 3}
+    - {fileID: 564910628626316478, guid: 755f68cb1f1e67843b137bfb285f5ba7, type: 3}
+    - {fileID: 15096963018612284, guid: 755f68cb1f1e67843b137bfb285f5ba7, type: 3}
+    - {fileID: -8358696960088838699, guid: 755f68cb1f1e67843b137bfb285f5ba7, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}

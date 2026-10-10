@@ -1,16 +1,10 @@
 fileFormatVersion: 2
-guid: 66ec8ceb905c7094091f25dd939c87ae
+guid: 29a905fc8cab10f4d8563792e502d5f6
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -4980967846990477346
-    second: Cadeado_Corrompido_0
-  - first:
-      213: -5787350621547561744
-    second: Cadeado_Corrompido_1
-  - first:
-      213: 3033841780933405333
-    second: Cadeado_Corrompido_2
+      213: -3598916374439202735
+    second: Notes_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -43,7 +37,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -119,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Cadeado_Corrompido_0
+      name: Notes_0
       rect:
         serializedVersion: 2
-        x: 56
-        y: 60
-        width: 36
-        height: 32
+        x: 610
+        y: 279
+        width: 677
+        height: 515
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -134,52 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: ed78d7a222c00eab0800000000000000
-      internalID: -4980967846990477346
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Cadeado_Corrompido_1
-      rect:
-        serializedVersion: 2
-        x: 257
-        y: 60
-        width: 37
-        height: 35
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 0fc750cb5433fafa0800000000000000
-      internalID: -5787350621547561744
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Cadeado_Corrompido_2
-      rect:
-        serializedVersion: 2
-        x: 460
-        y: 61
-        width: 32
-        height: 35
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 59a2649960f5a1a20800000000000000
-      internalID: 3033841780933405333
+      spriteID: 150f63510a41e0ec0800000000000000
+      internalID: -3598916374439202735
       vertices: []
       indices: 
       edges: []
@@ -198,9 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Cadeado_Corrompido_0: -4980967846990477346
-      Cadeado_Corrompido_1: -5787350621547561744
-      Cadeado_Corrompido_2: 3033841780933405333
+      Notes_0: -3598916374439202735
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
