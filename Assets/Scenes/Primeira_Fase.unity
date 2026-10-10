@@ -491,7 +491,7 @@ Transform:
   m_GameObject: {fileID: 58974541}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -2.7818182, y: 2.9135804, z: 0}
+  m_LocalPosition: {x: 0, y: 0.8, z: 0}
   m_LocalScale: {x: 0.38857275, y: 0.43787655, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1519,7 +1519,7 @@ GameObject:
   - component: {fileID: 209712835}
   - component: {fileID: 209712834}
   m_Layer: 0
-  m_Name: logs_2019
+  m_Name: XXXXXXX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2434,7 +2434,7 @@ GameObject:
   - component: {fileID: 284494695}
   - component: {fileID: 284494694}
   m_Layer: 0
-  m_Name: ideias_de_projeto
+  m_Name: XXXXXXX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8539,7 +8539,7 @@ GameObject:
   - component: {fileID: 821216602}
   - component: {fileID: 821216601}
   m_Layer: 0
-  m_Name: b@ckup_v2
+  m_Name: XXXXXXX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10754,7 +10754,7 @@ GameObject:
   - component: {fileID: 985409812}
   - component: {fileID: 985409811}
   m_Layer: 0
-  m_Name: lista_de_compras
+  m_Name: XXXXXXX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10999,7 +10999,7 @@ GameObject:
   - component: {fileID: 1015589675}
   - component: {fileID: 1015589674}
   m_Layer: 0
-  m_Name: back%p_v3
+  m_Name: XXXXXXX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -13378,7 +13378,7 @@ GameObject:
   - component: {fileID: 1226362234}
   - component: {fileID: 1226362233}
   m_Layer: 0
-  m_Name: contatos_antigos
+  m_Name: XXXXXXX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -16690,7 +16690,7 @@ GameObject:
   - component: {fileID: 1640362648}
   - component: {fileID: 1640362647}
   m_Layer: 0
-  m_Name: senhas_antigas
+  m_Name: XXXXXXX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -17477,7 +17477,7 @@ GameObject:
   - component: {fileID: 1759843921}
   - component: {fileID: 1759843920}
   m_Layer: 0
-  m_Name: wallpapers
+  m_Name: XXXXXXX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -18152,7 +18152,7 @@ GameObject:
   - component: {fileID: 1808772256}
   - component: {fileID: 1808772255}
   m_Layer: 0
-  m_Name: carta_aposentadoria
+  m_Name: XXXXXXX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -19992,7 +19992,7 @@ GameObject:
   - component: {fileID: 1980099614}
   - component: {fileID: 1980099613}
   m_Layer: 0
-  m_Name: bac*up_v4
+  m_Name: XXXXXXX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -20098,7 +20098,7 @@ GameObject:
   - component: {fileID: 1996571941}
   - component: {fileID: 1996571940}
   m_Layer: 0
-  m_Name: ba#kup_v1
+  m_Name: XXXXXXX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -21298,7 +21298,7 @@ GameObject:
   - component: {fileID: 2123723336}
   - component: {fileID: 2123723335}
   m_Layer: 0
-  m_Name: ferramentas
+  m_Name: XXXXXXX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
