@@ -63,6 +63,14 @@ public class HackTerminal : MonoBehaviour
                  "(ex.: dois 'Inspection' com resultados diferentes).")]
         public bool substituiResultadoAnterior = false;
 
+        [Header("Atraso para mostrar (opcional)")]
+        [Tooltip("Se marcado, os objetos desta entrada só aparecem DEPOIS que a varredura do TextoInspecionavel terminar.\n" +
+                 "Use no Inspection: a mensagem de erro / o diálogo do Jerry esperam a busca acabar.")]
+        public bool esperarVarredura = false;
+
+        [Tooltip("Segundos extras de espera antes de mostrar os objetos (soma com a espera da varredura, se estiver marcada).")]
+        [Min(0f)] public float atrasoParaMostrar = 0f;
+
         [Header("Cadeado (opcional)")]
         [Tooltip("Cadeado corrompido com a animação de 'fechado'. Some assim que o jogador hackeia.")]
         public GameObject cadeadoFechado;
@@ -147,6 +155,7 @@ public class HackTerminal : MonoBehaviour
     public event Action<int> AoExecutarLinha;      // número da linha (1 = primeira) que está rodando agora
     public event Action<int, string> AoErro;       // linha + mensagem pronta para mostrar ao jogador
     public event Action<bool> AoTerminar;          // true = terminou sem erros
+    public event Action<string, string> AoComandoExecutado;   // nome e valor de um comando que FUNCIONOU (ex.: "Inspection", "1")
 
     class Linha
     {
@@ -170,6 +179,30 @@ public class HackTerminal : MonoBehaviour
     // "quando" cada comando foi ativado (número crescente). Serve para saber qual contexto é o MAIS RECENTE.
     readonly Dictionary<string, int> _quando = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
     int _carimbo;
+
+    // ── Arquivos abertos NA TELA (avisados pelo componente ArquivoAberto, ou por DefinirArquivoAtual) ──
+    // O último da lista é o "arquivo atual". Um contexto pode ser o nome de um arquivo aberto, além de um comando ativo.
+    readonly List<(string nome, int quando)> _arquivos = new List<(string nome, int quando)>();
+
+    public string ArquivoAtual => _arquivos.Count > 0 ? _arquivos[_arquivos.Count - 1].nome : null;
+
+    // Chame quando um arquivo aparecer (o componente ArquivoAberto já faz isso sozinho).
+    public void DefinirArquivoAtual(string nome)
+    {
+        if (string.IsNullOrWhiteSpace(nome)) return;
+        nome = nome.Trim();
+
+        _arquivos.RemoveAll(a => Igual(a.nome, nome));   // reabrir = vira o mais recente
+        _arquivos.Add((nome, ++_carimbo));
+    }
+
+    // Chame quando o arquivo sumir. Se havia outro aberto por baixo, ele volta a ser o atual.
+    public void FecharArquivo(string nome)
+    {
+        if (string.IsNullOrWhiteSpace(nome)) return;
+        nome = nome.Trim();
+        _arquivos.RemoveAll(a => Igual(a.nome, nome));
+    }
 
     readonly Dictionary<string, List<Linha>> _funcoes = new Dictionary<string, List<Linha>>(StringComparer.OrdinalIgnoreCase);
     readonly Dictionary<string, int> _vars = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
@@ -398,6 +431,12 @@ public class HackTerminal : MonoBehaviour
 #endif
     }
 
+    // ── "Ocupado": outros scripts (ex.: TextoInspecionavel) seguram o programa enquanto fazem algo.
+    // Entradas com 'Esperar Varredura' só mostram os objetos quando ninguém mais estiver segurando.
+    int _ocupado;
+    public void Segurar() => _ocupado++;
+    public void Soltar() => _ocupado = Mathf.Max(0, _ocupado - 1);
+
     public void Parar()
     {
         StopAllCoroutines();
@@ -460,6 +499,26 @@ public class HackTerminal : MonoBehaviour
                 break;
             }
 
+            // Entrada com atraso: avisa os ouvintes AGORA (a varredura do Inspection começa) e só depois mostra os objetos.
+            bool avisou = false;
+            if (ativar && alvo != null && (alvo.esperarVarredura || alvo.atrasoParaMostrar > 0f))
+            {
+                AoComandoExecutado?.Invoke(p.nome, p.valor);
+                avisou = true;
+
+                if (alvo.esperarVarredura)
+                {
+                    float esperado = 0f;
+                    while (_ocupado > 0 && esperado < 10f)      // 10 s = trava de segurança, nunca congela o jogo
+                    {
+                        esperado += Time.deltaTime;
+                        yield return null;
+                    }
+                }
+
+                if (alvo.atrasoParaMostrar > 0f) yield return new WaitForSeconds(alvo.atrasoParaMostrar);
+            }
+
             // Hackeou uma pasta trancada: troca o cadeado corrompido pelo cadeado abrindo
             // e espera a animação terminar ANTES de abrir a pasta.
             if (ativar && alvo != null && alvo.PrecisaDestrancar)
@@ -483,6 +542,9 @@ public class HackTerminal : MonoBehaviour
                 if (ativar) alvo.destrancado = true;                 // não repete a animação se abrir de novo
                 else if (estavaAberto) alvo.EsconderCadeados();      // saiu da pasta: o cadeado some
             }
+
+            // Avisa quem estiver ouvindo (ex.: TextoInspecionavel) que este comando acabou de funcionar
+            if (!avisou) AoComandoExecutado?.Invoke(p.nome, p.valor);
 
             if (espera != null && i < passos.Count - 1) yield return espera;
         }
@@ -647,9 +709,13 @@ public class HackTerminal : MonoBehaviour
                 if (alvo == null)
                 {
                     LogDiagnostico(nome, valor, candidatos);
-                    AlvoHackeavel semContexto = candidatos.Find(a => !ContextoOk(a));
-                    erro = semContexto != null
-                        ? $"Você precisa ativar '{DescreverContexto(semContexto)}' antes de usar '{nome}'."
+                    // Junta o que falta de TODAS as entradas (e não só da primeira)
+                    var faltando = new List<string>();
+                    foreach (AlvoHackeavel c in candidatos)
+                        if (!ContextoOk(c)) faltando.Add(DescreverContexto(c));
+
+                    erro = faltando.Count > 0
+                        ? $"Você precisa ativar '{string.Join(" ou ", faltando)}' antes de usar '{nome}'."
                         : $"Valor incorreto para '{nome}'.";
                     return false;
                 }
@@ -700,7 +766,10 @@ public class HackTerminal : MonoBehaviour
 
         if (primeiro == null)
         {
-            erro = $"Não achei nada chamado '{nome}'. Confira se digitou igualzinho.";
+            // A entrada existe e foi aceita, mas os slots de Objetos estão vazios (None): erro de configuração, não de digitação.
+            erro = (alvo != null && alvo.TemObjetos)
+                ? $"A entrada '{nome}' foi aceita, mas os slots de Objetos dela estão vazios (None). Arraste os objetos no Inspector."
+                : $"Não achei nada chamado '{nome}'. Confira se digitou igualzinho.";
             return false;
         }
 
@@ -733,7 +802,32 @@ public class HackTerminal : MonoBehaviour
     static bool Igual(string a, string b) =>
         !string.IsNullOrEmpty(a) && a.Trim().Equals(b, StringComparison.OrdinalIgnoreCase);
 
-    // OK se não há exigência, ou se PELO MENOS UM grupo ('|') tem todos os seus comandos ativos (',').
+    // Um requisito de contexto vale se for o ARQUIVO ATUAL (o que está na frente, na tela)
+    // ou um COMANDO que está ativo. 'quando' diz o quão recente isso aconteceu (maior = mais novo).
+    bool RequisitoAtivo(string req, out int quando)
+    {
+        quando = 0;
+
+        if (_arquivos.Count > 0)
+        {
+            var atual = _arquivos[_arquivos.Count - 1];
+            if (Igual(atual.nome, req))
+            {
+                quando = atual.quando;
+                return true;
+            }
+        }
+
+        if (_ativos.ContainsKey(req))
+        {
+            quando = _quando.TryGetValue(req, out int q) ? q : 1;
+            return true;
+        }
+
+        return false;
+    }
+
+    // OK se não há exigência, ou se PELO MENOS UM grupo ('|') tem todos os seus requisitos ativos (',').
     bool ContextoOk(AlvoHackeavel a)
     {
         string[][] grupos = a.GruposDeContexto;
@@ -744,7 +838,7 @@ public class HackTerminal : MonoBehaviour
             bool todos = true;
             foreach (string req in grupo)
             {
-                if (!_ativos.ContainsKey(req)) { todos = false; break; }
+                if (!RequisitoAtivo(req, out _)) { todos = false; break; }
             }
             if (todos) return true;
         }
@@ -756,6 +850,7 @@ public class HackTerminal : MonoBehaviour
     {
         var sb = new System.Text.StringBuilder();
         sb.AppendLine($"HackTerminal: '{nome}:{valor}' não bateu com nenhuma entrada.");
+        sb.AppendLine($"Arquivo aberto agora: '{ArquivoAtual ?? "(nenhum)"}'   |   todos os abertos: [{string.Join(" | ", _arquivos.ConvertAll(x => x.nome))}]");
         sb.AppendLine($"Comandos ativos agora: [{string.Join(" | ", _ativos.Keys)}]");
 
         for (int i = 0; i < candidatos.Count; i++)
@@ -801,8 +896,8 @@ public class HackTerminal : MonoBehaviour
 
             foreach (string req in grupo)
             {
-                if (!_ativos.ContainsKey(req)) { todos = false; break; }
-                recente = Mathf.Max(recente, _quando.TryGetValue(req, out int q) ? q : 1);
+                if (!RequisitoAtivo(req, out int q)) { todos = false; break; }
+                recente = Mathf.Max(recente, q);
             }
 
             if (todos && recente > nota) nota = recente;
