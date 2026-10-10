@@ -1128,11 +1128,6 @@ MonoBehaviour:
   linhas:
   - "Oi, jerry aqui, anda sumido em? bem, voc\xEA ainda lembra como se mover por
     aqui?"
-  - "Bem, deixa que eu te guio ent\xE3o, teste o comando \"Imagens: 1\""
-  - "Depois disso v\xE1 para documentos "
-  - e depois volte ao inicio
-  - "Bem, voc\xEA j\xE1 percebeu que para se mover usa o nome da pasta e um, esse
-    um \xE9 o equivalente a TRUE, voc\xEA vai lembrar disso no futuro"
   atrasoInicial: 2
   atrasoPorCaractere: 0.03
   atrasoParaSumir: 5
