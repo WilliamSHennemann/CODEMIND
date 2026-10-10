@@ -244,12 +244,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CommandInterpreter
   nomeDoInputField: InputField (TMP)
+  atrasoEntreComandos: 0.4
+  maxPassos: 500
+  limparAposExecutar: 1
+  usarHistorico: 1
+  maxHistorico: 100
+  salvarEmArquivo: 0
   alvos:
   - comando: hack folder
     objetos: []
     contextoNecessario: conceito
     valorEsperado: 1
     moverCamera: 1
+    substituiResultadoAnterior: 0
+    esperarVarredura: 0
+    atrasoParaMostrar: 0
+    cadeadoFechado: {fileID: 0}
+    cadeadoAbrindo: {fileID: 0}
+    duracaoAbertura: 1
 --- !u!114 &49342075
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -953,7 +965,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.510303}
-  m_AnchoredPosition: {x: 0, y: -1.999996}
+  m_AnchoredPosition: {x: -9.5, y: -26.6}
   m_SizeDelta: {x: 100, y: 96}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &444749147
@@ -981,6 +993,7 @@ MonoBehaviour:
   - {fileID: -7385492187946942363, guid: 6a911dabd2106b24d9691ed0a277240a, type: 3}
   - {fileID: -953146138953794456, guid: 6a911dabd2106b24d9691ed0a277240a, type: 3}
   velocidadeAnimacao: 0.08
+  comecarEscondido: 0
 --- !u!1 &466378681
 GameObject:
   m_ObjectHideFlags: 0
@@ -1126,19 +1139,21 @@ MonoBehaviour:
   caixaDeTexto: {fileID: 2147237119}
   textoExibido: {fileID: 1440743636}
   linhas:
-  - "Oi, jerry aqui, anda sumido em? bem, voc\xEA ainda lembra como se mover por
-    aqui?"
-  - "Bem, deixa que eu te guio ent\xE3o, teste o comando \"Imagens: 1\""
-  - "Depois disso v\xE1 para documentos "
+  - Oi, jerry aqui, anda sumido em? bem, voce ainda lembra como se mover por aqui?
+  - 'Bem, deixa que eu te guio entao, teste o comando "Imagens: 1"'
+  - 'Depois disso va para documentos '
   - e depois volte ao inicio
-  - "Bem, voc\xEA j\xE1 percebeu que para se mover usa o nome da pasta e um, esse
-    um \xE9 o equivalente a TRUE, voc\xEA vai lembrar disso no futuro"
+  - Bem, voce ja percebeu que para se mover usa o nome da pasta e 1.
+  - Esse 1 e o equivalente a TRUE, voce vai lembrar e usar disso no futuro.
   atrasoInicial: 2
   atrasoPorCaractere: 0.03
   atrasoParaSumir: 5
   avancarComClique: 1
   teclaAvancar: 32
   Radio: {fileID: 444749147}
+  sumirEsteObjetoNoFim: 1
+  outrosObjetosParaSumir: []
+  irParaProximaFase: {fileID: 920294793}
 --- !u!212 &511691432
 SpriteRenderer:
   serializedVersion: 2
@@ -1659,6 +1674,52 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!1 &920294792
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 920294794}
+  - component: {fileID: 920294793}
+  m_Layer: 0
+  m_Name: ProximaFase
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &920294793
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 920294792}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1158000c0399e9b44a6013f042a0682f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MenuManager
+  nomeDaCenaParaCarregar: Primeira_Fase
+  isExitButton: 0
+--- !u!4 &920294794
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 920294792}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.65051, y: 2.34609, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &941940599
 GameObject:
   m_ObjectHideFlags: 0
@@ -1944,6 +2005,9 @@ MonoBehaviour:
   avancarComClique: 1
   teclaAvancar: 32
   Radio: {fileID: 0}
+  sumirEsteObjetoNoFim: 1
+  outrosObjetosParaSumir: []
+  irParaProximaFase: {fileID: 0}
 --- !u!1 &1050505900
 GameObject:
   m_ObjectHideFlags: 0
@@ -3835,3 +3899,4 @@ SceneRoots:
   - {fileID: 49342076}
   - {fileID: 44047258}
   - {fileID: 466378683}
+  - {fileID: 920294794}
