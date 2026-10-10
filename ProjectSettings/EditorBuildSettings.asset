@@ -14,13 +14,13 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Primeira_Fase.unity
     guid: 5f8f435ad324d444c97162140fc51cd0
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Segunda_Fase.unity
-    guid: 4efe3d6ccd2ba9a41a290ad35c43798d
-  - enabled: 1
+    guid: e33d72ba7ab6171439a9645f7d563486
+  - enabled: 0
     path: Assets/Scenes/Terceira_Fase.unity
     guid: 51ca69b541c0ac84d804775124e6ffae
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Quarta_fase.unity
     guid: ba921da7c32341d44a6b8d939c28f6e5
   m_configObjects: {}

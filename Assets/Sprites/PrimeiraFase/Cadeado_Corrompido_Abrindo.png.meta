@@ -1,10 +1,16 @@
 fileFormatVersion: 2
-guid: ed0930c49f0e1484199c8ec887daf70a
+guid: e3a7956bf0612d648a31d8169a1e80e0
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 6680630021192848091
-    second: TXT_0
+      213: -577060647552449882
+    second: Cadeado_Corrompido_Abrindo_0
+  - first:
+      213: -2380121468735013077
+    second: Cadeado_Corrompido_Abrindo_1
+  - first:
+      213: -1466091608209003186
+    second: Cadeado_Corrompido_Abrindo_2
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -37,7 +43,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -113,13 +119,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: TXT_0
+      name: Cadeado_Corrompido_Abrindo_0
       rect:
         serializedVersion: 2
-        x: 63
-        y: 50
-        width: 76
-        height: 106
+        x: 56
+        y: 60
+        width: 36
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +134,52 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: bd29209db9d56bc50800000000000000
-      internalID: 6680630021192848091
+      spriteID: 6a287c0066eddf7f0800000000000000
+      internalID: -577060647552449882
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cadeado_Corrompido_Abrindo_1
+      rect:
+        serializedVersion: 2
+        x: 257
+        y: 60
+        width: 37
+        height: 35
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b2fb4c5722c18fed0800000000000000
+      internalID: -2380121468735013077
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cadeado_Corrompido_Abrindo_2
+      rect:
+        serializedVersion: 2
+        x: 460
+        y: 61
+        width: 32
+        height: 35
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e4d6584337567abe0800000000000000
+      internalID: -1466091608209003186
       vertices: []
       indices: 
       edges: []
@@ -148,7 +198,9 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      TXT_0: 6680630021192848091
+      Cadeado_Corrompido_Abrindo_0: -577060647552449882
+      Cadeado_Corrompido_Abrindo_1: -2380121468735013077
+      Cadeado_Corrompido_Abrindo_2: -1466091608209003186
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

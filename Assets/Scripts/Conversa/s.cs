@@ -22,6 +22,16 @@ public class DialogueBox : MonoBehaviour
     [Tooltip("Só usado se o gatilho for Clique e precisar ligar uma animação junto")]
     [SerializeField] private AnimationR Radio;
 
+    [Header("Ao terminar as falas")]
+    [Tooltip("Se marcado, ESTE objeto (ex: o botão LigaRadio) também some quando o diálogo acaba.")]
+    [SerializeField] private bool sumirEsteObjetoNoFim = true;
+    [Tooltip("OPCIONAL: outros objetos que devem sumir junto quando o diálogo acaba.")]
+    [SerializeField] private GameObject[] outrosObjetosParaSumir;
+
+    [Header("Fim da fase (opcional)")]
+    [Tooltip("OPCIONAL: arraste um objeto com MenuManager. Quando as falas terminarem, ele carrega a próxima fase (chama Jogar()).")]
+    [SerializeField] private MenuManager irParaProximaFase;
+
     private int linhaAtual = 0;
     private bool radioLigado = false;
     private bool dialogoAtivado = false;
@@ -147,7 +157,22 @@ public class DialogueBox : MonoBehaviour
         caixaDeTexto.SetActive(false);
         textoExibido.text = "";
 
+        // Fim das falas: o rádio para e some (só volta quando ComecarLoop for chamado de novo)
         if (Radio != null)
-            Radio.PararLoop();
+            Radio.Esconder();
+
+        if (outrosObjetosParaSumir != null)
+        {
+            foreach (GameObject obj in outrosObjetosParaSumir)
+                if (obj != null && obj != gameObject) obj.SetActive(false);
+        }
+
+        // Fim da fase: manda o jogador para a cena configurada no MenuManager
+        if (irParaProximaFase != null)
+            irParaProximaFase.Jogar();
+
+        // Por último: desativar este objeto interrompe esta coroutine, então nada pode vir depois.
+        if (sumirEsteObjetoNoFim)
+            gameObject.SetActive(false);
     }
 }

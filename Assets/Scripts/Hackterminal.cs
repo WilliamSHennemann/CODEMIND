@@ -1,10 +1,14 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Text.RegularExpressions;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+#if ENABLE_INPUT_SYSTEM && !ENABLE_LEGACY_INPUT_MANAGER
+using UnityEngine.InputSystem;
+#endif
 
 // Coloque este script SÓ no GameManager (o objeto com DontDestroyOnLoad).
 // O nome do arquivo precisa ser exatamente HackTerminal.cs (igual ao da classe).
@@ -42,30 +46,69 @@ public class HackTerminal : MonoBehaviour
         [Tooltip("Os GameObjects que vão aparecer/desaparecer juntos. Podem começar DESATIVADOS no Inspector.")]
         public List<GameObject> objetos = new List<GameObject>();
 
-        [Tooltip("OPCIONAL: comandos (separados por vírgula) que precisam estar ATIVOS antes deste funcionar.")]
+        [Tooltip("OPCIONAL: comandos que precisam estar ATIVOS antes deste funcionar.\n" +
+                 "Vírgula = E (todos).   Barra '|' = OU (qualquer um).\n" +
+                 "Ex: 'Folder | Documentos'  -> vale se Folder OU Documentos estiver ativo.\n" +
+                 "Ex: 'Folder, Senha | Admin' -> (Folder E Senha) OU Admin.")]
         public string contextoNecessario;
 
-        [Tooltip("OPCIONAL: valor exato exigido (ex: '1', 'root', '5'). Deixe vazio para aceitar qualquer valor.")]
+        [Tooltip("OPCIONAL: valor exato exigido (ex: '1', 'root', '5'). Use '|' para aceitar mais de um (ex: 'true|1'). Deixe vazio para aceitar qualquer valor.")]
         public string valorEsperado = "1";
 
         [Tooltip("Se marcado, a câmera foca no objeto ao ativar. Desmarque para comandos 'invisíveis' (flags).")]
         public bool moverCamera = true;
 
-        [NonSerialized] string[] _requisitos;
+        [Tooltip("Se marcado, ao ativar esta entrada o resultado ANTERIOR do mesmo comando é escondido.\n" +
+                 "Use quando há várias entradas com o mesmo comando e só uma deve aparecer por vez\n" +
+                 "(ex.: dois 'Inspection' com resultados diferentes).")]
+        public bool substituiResultadoAnterior = false;
+
+        [Header("Cadeado (opcional)")]
+        [Tooltip("Cadeado corrompido com a animação de 'fechado'. Some assim que o jogador hackeia.")]
+        public GameObject cadeadoFechado;
+
+        [Tooltip("Cadeado abrindo (precisa de um Animator). Deixe DESATIVADO no início. Aparece ao hackear, toca a animação UMA vez, congela no último frame e fica até o jogador sair da pasta.")]
+        public GameObject cadeadoAbrindo;
+
+        [Tooltip("Só é usada se o cadeado abrindo NÃO tiver Animator. Com Animator, o tempo é automático (a pasta abre quando a animação termina).")]
+        public float duracaoAbertura = 1f;
+
+        [NonSerialized] public bool destrancado;
+
+        public bool PrecisaDestrancar => !destrancado && (cadeadoFechado != null || cadeadoAbrindo != null);
+
+        public void EsconderCadeados()
+        {
+            if (cadeadoFechado != null) cadeadoFechado.SetActive(false);
+            if (cadeadoAbrindo != null) cadeadoAbrindo.SetActive(false);
+        }
+
+        [NonSerialized] string[][] _grupos;
 
         public bool TemObjetos => objetos != null && objetos.Count > 0;
 
-        // Lista de requisitos já separada (calculada uma vez só)
-        public string[] Requisitos
+        // Cada grupo é uma ALTERNATIVA (separadas por '|'). Dentro do grupo, ',' = todos precisam estar ativos.
+        // Vazio = sem exigência. Calculado uma vez só.
+        public string[][] GruposDeContexto
         {
             get
             {
-                if (_requisitos == null)
+                if (_grupos == null)
                 {
-                    _requisitos = (contextoNecessario ?? "").Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-                    for (int i = 0; i < _requisitos.Length; i++) _requisitos[i] = _requisitos[i].Trim();
+                    var lista = new List<string[]>();
+                    foreach (string alternativa in (contextoNecessario ?? "").Split('|'))
+                    {
+                        var reqs = new List<string>();
+                        foreach (string r in alternativa.Split(','))
+                        {
+                            string t = r.Trim();
+                            if (t.Length > 0) reqs.Add(t);
+                        }
+                        if (reqs.Count > 0) lista.Add(reqs.ToArray());
+                    }
+                    _grupos = lista.ToArray();
                 }
-                return _requisitos;
+                return _grupos;
             }
         }
     }
@@ -83,6 +126,16 @@ public class HackTerminal : MonoBehaviour
 
     [Tooltip("Limpa a caixa depois de executar. Desmarque para o jogador poder corrigir o próprio código.")]
     public bool limparAposExecutar = true;
+
+    [Header("Histórico de comandos")]
+    [Tooltip("Ctrl + ↑ / ↓ na caixa de comando percorre os códigos já enviados NESTA fase. As setas sozinhas só movem o cursor entre as linhas.")]
+    public bool usarHistorico = true;
+
+    [Tooltip("Quantos códigos guardar por fase (os mais antigos são descartados).")]
+    [Min(1)] public int maxHistorico = 100;
+
+    [Tooltip("Também grava cada código enviado em um arquivo de texto (historico_NomeDaFase.txt em Application.persistentDataPath). Útil para o professor revisar.")]
+    public bool salvarEmArquivo = false;
 
     [Header("Alvos Hackeáveis")]
     public List<AlvoHackeavel> alvos = new List<AlvoHackeavel>();
@@ -114,8 +167,21 @@ public class HackTerminal : MonoBehaviour
 
     // alvo ativo por comando (o valor pode ser null se o objeto foi achado por nome)
     readonly Dictionary<string, AlvoHackeavel> _ativos = new Dictionary<string, AlvoHackeavel>(StringComparer.OrdinalIgnoreCase);
+    // "quando" cada comando foi ativado (número crescente). Serve para saber qual contexto é o MAIS RECENTE.
+    readonly Dictionary<string, int> _quando = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
+    int _carimbo;
+
     readonly Dictionary<string, List<Linha>> _funcoes = new Dictionary<string, List<Linha>>(StringComparer.OrdinalIgnoreCase);
     readonly Dictionary<string, int> _vars = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
+
+    // histórico: uma lista por fase (nome da cena). Sobrevive enquanto o GameManager existir.
+    readonly Dictionary<string, List<string>> _historicoPorFase = new Dictionary<string, List<string>>();
+    List<string> _historico = new List<string>();
+    int _posHistorico = -1;      // -1 = não está navegando
+    string _rascunho = "";       // o que o jogador já tinha digitado antes de apertar ↑
+
+    // Códigos enviados nesta fase (só leitura) — dá para usar numa tela de revisão.
+    public IReadOnlyList<string> Historico => _historico;
 
     // ───────────────────────── Ciclo de vida / conexão com a cena ─────────────────────────
 
@@ -124,12 +190,18 @@ public class HackTerminal : MonoBehaviour
     void OnEnable() => SceneManager.sceneLoaded += OnSceneLoaded;
     void OnDisable() => SceneManager.sceneLoaded -= OnSceneLoaded;
 
-    void Start() => ConectarNaCenaAtual();
+    void Start()
+    {
+        TrocarHistorico(SceneManager.GetActiveScene().name);
+        ConectarNaCenaAtual();
+    }
 
     void OnSceneLoaded(Scene cena, LoadSceneMode modo)
     {
         Parar();             // não deixa um programa da cena anterior continuar rodando
+        TrocarHistorico(cena.name);
         _funcoes.Clear();    // funções valem só dentro da fase
+        foreach (AlvoHackeavel a in alvos) a.destrancado = false;
         ConectarNaCenaAtual();
     }
 
@@ -191,6 +263,8 @@ public class HackTerminal : MonoBehaviour
             return;
         }
 
+        RegistrarHistorico(codigo);
+
         _contador = 0;
         _vars.Clear();
 
@@ -207,6 +281,123 @@ public class HackTerminal : MonoBehaviour
         StartCoroutine(Rodar(passos));
     }
 
+    // ───────────────────────── Histórico de comandos (seta ↑ / ↓) ─────────────────────────
+
+    void Update()
+    {
+        if (!usarHistorico || commandInput == null || !commandInput.isFocused || _historico.Count == 0) return;
+
+        // Ctrl + ↑ / ↓ = histórico. As setas sozinhas continuam movendo o cursor entre as linhas do código.
+        if (!CtrlSegurado()) return;
+
+        if (SetaApertada(true)) Navegar(-1);
+        else if (SetaApertada(false)) Navegar(+1);
+    }
+
+    void Navegar(int direcao)
+    {
+        if (direcao < 0)
+        {
+            if (_posHistorico < 0)
+            {
+                _rascunho = commandInput.text;                 // guarda o que estava sendo digitado
+                _posHistorico = _historico.Count - 1;
+            }
+            else
+            {
+                _posHistorico = Mathf.Max(0, _posHistorico - 1);
+            }
+        }
+        else
+        {
+            if (_posHistorico < 0) return;
+            _posHistorico++;
+            if (_posHistorico >= _historico.Count) _posHistorico = -1;   // passou do mais recente: volta ao rascunho
+        }
+
+        commandInput.text = _posHistorico < 0 ? _rascunho : _historico[_posHistorico];
+        StartCoroutine(CursorNoFim());
+    }
+
+    // Espera 1 frame para o campo terminar de tratar a própria tecla, e então põe o cursor no fim do texto.
+    IEnumerator CursorNoFim()
+    {
+        yield return null;
+        if (commandInput == null) yield break;
+        commandInput.caretPosition = commandInput.text.Length;
+    }
+
+    void RegistrarHistorico(string codigo)
+    {
+        _posHistorico = -1;
+        _rascunho = "";
+
+        string limpo = codigo.TrimEnd();
+        if (limpo.Length == 0) return;
+
+        // Não repete se for igual ao último enviado
+        if (_historico.Count == 0 || _historico[_historico.Count - 1] != limpo)
+        {
+            _historico.Add(limpo);
+            if (_historico.Count > maxHistorico) _historico.RemoveAt(0);
+        }
+
+        if (salvarEmArquivo) GravarEmArquivo(limpo);
+    }
+
+    void TrocarHistorico(string fase)
+    {
+        if (!_historicoPorFase.TryGetValue(fase, out _historico))
+        {
+            _historico = new List<string>();
+            _historicoPorFase[fase] = _historico;
+        }
+        _posHistorico = -1;
+        _rascunho = "";
+    }
+
+    public void LimparHistorico()
+    {
+        _historico.Clear();
+        _posHistorico = -1;
+        _rascunho = "";
+    }
+
+    void GravarEmArquivo(string codigo)
+    {
+        try
+        {
+            string caminho = Path.Combine(Application.persistentDataPath, $"historico_{SceneManager.GetActiveScene().name}.txt");
+            File.AppendAllText(caminho, $"[{DateTime.Now:HH:mm:ss}]\n{codigo}\n\n");
+        }
+        catch (Exception e)
+        {
+            Debug.LogWarning("HackTerminal: não consegui salvar o histórico em arquivo: " + e.Message);
+        }
+    }
+
+    // Funcionam tanto com o Input System novo quanto com o antigo
+    static bool CtrlSegurado()
+    {
+#if ENABLE_INPUT_SYSTEM && !ENABLE_LEGACY_INPUT_MANAGER
+        Keyboard kb = Keyboard.current;
+        return kb != null && kb.ctrlKey.isPressed;
+#else
+        return Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl);
+#endif
+    }
+
+    static bool SetaApertada(bool cima)
+    {
+#if ENABLE_INPUT_SYSTEM && !ENABLE_LEGACY_INPUT_MANAGER
+        Keyboard kb = Keyboard.current;
+        if (kb == null) return false;
+        return cima ? kb.upArrowKey.wasPressedThisFrame : kb.downArrowKey.wasPressedThisFrame;
+#else
+        return Input.GetKeyDown(cima ? KeyCode.UpArrow : KeyCode.DownArrow);
+#endif
+    }
+
     public void Parar()
     {
         StopAllCoroutines();
@@ -214,6 +405,39 @@ public class HackTerminal : MonoBehaviour
     }
 
     public void LimparFuncoes() => _funcoes.Clear();
+
+    // Toca a animação do cadeado abrindo UMA vez só (mesmo que o clip esteja com Loop Time ligado)
+    // e congela no último frame. Sem Animator, apenas espera 'duracaoAbertura'.
+    IEnumerator TocarCadeadoUmaVez(AlvoHackeavel alvo)
+    {
+        Animator anim = alvo.cadeadoAbrindo != null ? alvo.cadeadoAbrindo.GetComponentInChildren<Animator>() : null;
+
+        if (anim == null)
+        {
+            if (alvo.duracaoAbertura > 0f) yield return new WaitForSeconds(alvo.duracaoAbertura);
+            yield break;
+        }
+
+        anim.speed = 1f;
+        yield return null;                         // deixa o Animator entrar no primeiro estado
+
+        AnimatorStateInfo estado = anim.GetCurrentAnimatorStateInfo(0);
+        float tempo = 0f;
+        float teto = Mathf.Max(5f, alvo.duracaoAbertura);   // segurança: nunca trava o jogo
+
+        while (tempo < teto)
+        {
+            estado = anim.GetCurrentAnimatorStateInfo(0);
+            if (estado.normalizedTime >= 1f) break;         // completou a 1ª volta
+            tempo += Time.deltaTime;
+            yield return null;
+        }
+
+        // Volta ao final do clip e congela (assim não recomeça mesmo com Loop Time ligado)
+        anim.Play(estado.fullPathHash, 0, 0.999f);
+        anim.Update(0f);
+        anim.speed = 0f;
+    }
 
     IEnumerator Rodar(List<Passo> passos)
     {
@@ -226,11 +450,38 @@ public class HackTerminal : MonoBehaviour
             Passo p = passos[i];
             AoExecutarLinha?.Invoke(p.linha);
 
-            if (!Aplicar(p.nome, p.valor, out string erro))
+            bool ativar = p.valor != "0";
+            string erro;
+
+            if (!Resolver(p.nome, p.valor, ativar, out AlvoHackeavel alvo, out erro))
             {
                 Falhar(p.linha, erro);
                 ok = false;
                 break;
+            }
+
+            // Hackeou uma pasta trancada: troca o cadeado corrompido pelo cadeado abrindo
+            // e espera a animação terminar ANTES de abrir a pasta.
+            if (ativar && alvo != null && alvo.PrecisaDestrancar)
+            {
+                if (alvo.cadeadoFechado != null) alvo.cadeadoFechado.SetActive(false);
+                if (alvo.cadeadoAbrindo != null) alvo.cadeadoAbrindo.SetActive(true);
+                yield return StartCoroutine(TocarCadeadoUmaVez(alvo));
+            }
+
+            bool estavaAberto = _ativos.ContainsKey(p.nome);
+
+            if (!Efetivar(p.nome, alvo, ativar, out erro))
+            {
+                Falhar(p.linha, erro);
+                ok = false;
+                break;
+            }
+
+            if (alvo != null)
+            {
+                if (ativar) alvo.destrancado = true;                 // não repete a animação se abrir de novo
+                else if (estavaAberto) alvo.EsconderCadeados();      // saiu da pasta: o cadeado some
             }
 
             if (espera != null && i < passos.Count - 1) yield return espera;
@@ -381,23 +632,24 @@ public class HackTerminal : MonoBehaviour
 
     // ───────────────────────── Executa UM comando (mesma lógica de antes, mais enxuta) ─────────────────────────
 
-    bool Aplicar(string nome, string valor, out string erro)
+    // Descobre QUAL alvo da lista vale para este comando (contexto, valor esperado, etc.)
+    bool Resolver(string nome, string valor, bool ativar, out AlvoHackeavel alvo, out string erro)
     {
         erro = null;
-        bool ativar = valor != "0";
+        alvo = null;
         List<AlvoHackeavel> candidatos = alvos.FindAll(a => Igual(a.comando, nome));
-        AlvoHackeavel alvo = null;
 
         if (candidatos.Count > 0)
         {
             if (ativar)
             {
-                alvo = candidatos.Find(a => ContextoOk(a) && ValorOk(a, valor));
+                alvo = MelhorCandidato(candidatos, valor);
                 if (alvo == null)
                 {
+                    LogDiagnostico(nome, valor, candidatos);
                     AlvoHackeavel semContexto = candidatos.Find(a => !ContextoOk(a));
                     erro = semContexto != null
-                        ? $"Você precisa ativar '{semContexto.contextoNecessario}' antes de usar '{nome}'."
+                        ? $"Você precisa ativar '{DescreverContexto(semContexto)}' antes de usar '{nome}'."
                         : $"Valor incorreto para '{nome}'.";
                     return false;
                 }
@@ -409,7 +661,23 @@ public class HackTerminal : MonoBehaviour
             }
         }
 
+        return true;
+    }
+
+    // Liga/desliga os objetos do alvo, atualiza o estado e foca a câmera
+    bool Efetivar(string nome, AlvoHackeavel alvo, bool ativar, out string erro)
+    {
+        erro = null;
         GameObject primeiro = null;
+
+        // Entrada "exclusiva": esconde o resultado anterior do mesmo comando ANTES de mostrar o novo
+        if (ativar && alvo != null && alvo.substituiResultadoAnterior
+            && _ativos.TryGetValue(nome, out AlvoHackeavel anterior)
+            && anterior != null && anterior != alvo && anterior.TemObjetos)
+        {
+            foreach (GameObject o in anterior.objetos)
+                if (o != null) o.SetActive(false);
+        }
 
         if (alvo != null && alvo.TemObjetos)
         {
@@ -436,8 +704,16 @@ public class HackTerminal : MonoBehaviour
             return false;
         }
 
-        if (ativar) _ativos[nome] = alvo;
-        else _ativos.Remove(nome);
+        if (ativar)
+        {
+            _ativos[nome] = alvo;
+            _quando[nome] = ++_carimbo;
+        }
+        else
+        {
+            _ativos.Remove(nome);
+            _quando.Remove(nome);
+        }
 
         if (ativar && cameraFocus != null && (alvo == null || alvo.moverCamera))
             cameraFocus.Focar(primeiro);
@@ -457,13 +733,94 @@ public class HackTerminal : MonoBehaviour
     static bool Igual(string a, string b) =>
         !string.IsNullOrEmpty(a) && a.Trim().Equals(b, StringComparison.OrdinalIgnoreCase);
 
+    // OK se não há exigência, ou se PELO MENOS UM grupo ('|') tem todos os seus comandos ativos (',').
     bool ContextoOk(AlvoHackeavel a)
     {
-        foreach (string req in a.Requisitos)
-            if (req.Length > 0 && !_ativos.ContainsKey(req)) return false;
-        return true;
+        string[][] grupos = a.GruposDeContexto;
+        if (grupos.Length == 0) return true;
+
+        foreach (string[] grupo in grupos)
+        {
+            bool todos = true;
+            foreach (string req in grupo)
+            {
+                if (!_ativos.ContainsKey(req)) { todos = false; break; }
+            }
+            if (todos) return true;
+        }
+        return false;
     }
 
-    static bool ValorOk(AlvoHackeavel a, string valor) =>
-        string.IsNullOrEmpty(a.valorEsperado) || valor.Equals(a.valorEsperado, StringComparison.OrdinalIgnoreCase);
+    // Só para você (Console): mostra por que cada entrada do comando foi recusada.
+    void LogDiagnostico(string nome, string valor, List<AlvoHackeavel> candidatos)
+    {
+        var sb = new System.Text.StringBuilder();
+        sb.AppendLine($"HackTerminal: '{nome}:{valor}' não bateu com nenhuma entrada.");
+        sb.AppendLine($"Comandos ativos agora: [{string.Join(" | ", _ativos.Keys)}]");
+
+        for (int i = 0; i < candidatos.Count; i++)
+        {
+            AlvoHackeavel a = candidatos[i];
+            sb.AppendLine($"  Entrada {i + 1}: contexto = '{a.contextoNecessario}'  (satisfeito: {ContextoOk(a)})  |  valor esperado = '{a.valorEsperado}'  (ok: {ValorOk(a, valor)})");
+        }
+        Debug.Log(sb.ToString());
+    }
+
+    // Entre as entradas que servem (valor + contexto), escolhe a de contexto MAIS RECENTE:
+    // o último arquivo aberto ganha. Empate: a primeira da lista.
+    AlvoHackeavel MelhorCandidato(List<AlvoHackeavel> candidatos, string valor)
+    {
+        AlvoHackeavel melhor = null;
+        int melhorNota = -1;
+
+        foreach (AlvoHackeavel a in candidatos)
+        {
+            if (!ValorOk(a, valor)) continue;
+
+            int nota = NotaDeContexto(a);
+            if (nota > melhorNota)
+            {
+                melhor = a;
+                melhorNota = nota;
+            }
+        }
+        return melhor;
+    }
+
+    // -1 = contexto NÃO satisfeito | 0 = sem exigência | >0 = quão recente é o requisito mais novo que foi satisfeito
+    int NotaDeContexto(AlvoHackeavel a)
+    {
+        string[][] grupos = a.GruposDeContexto;
+        if (grupos.Length == 0) return 0;
+
+        int nota = -1;
+        foreach (string[] grupo in grupos)
+        {
+            bool todos = true;
+            int recente = 0;
+
+            foreach (string req in grupo)
+            {
+                if (!_ativos.ContainsKey(req)) { todos = false; break; }
+                recente = Mathf.Max(recente, _quando.TryGetValue(req, out int q) ? q : 1);
+            }
+
+            if (todos && recente > nota) nota = recente;
+        }
+        return nota;
+    }
+
+    // Texto amigável para a mensagem de erro: "Folder | Documentos" -> "Folder ou Documentos"
+    static string DescreverContexto(AlvoHackeavel a) =>
+        a.contextoNecessario.Replace("|", " ou ").Replace(",", " e ");
+
+    static bool ValorOk(AlvoHackeavel a, string valor)
+    {
+        if (string.IsNullOrEmpty(a.valorEsperado)) return true;
+
+        foreach (string v in a.valorEsperado.Split('|'))
+            if (valor.Equals(v.Trim(), StringComparison.OrdinalIgnoreCase)) return true;
+
+        return false;
+    }
 }

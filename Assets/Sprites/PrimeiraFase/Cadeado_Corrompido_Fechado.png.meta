@@ -1,10 +1,16 @@
 fileFormatVersion: 2
-guid: fffcadaea407d8947ac3d4cd6ebca6db
+guid: 755f68cb1f1e67843b137bfb285f5ba7
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -6920116254448358164
-    second: cadeado_0
+      213: 564910628626316478
+    second: Cadeado_Corrompido_Fechado_0
+  - first:
+      213: 15096963018612284
+    second: Cadeado_Corrompido_Fechado_1
+  - first:
+      213: -8358696960088838699
+    second: Cadeado_Corrompido_Fechado_2
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -113,13 +119,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: cadeado_0
+      name: Cadeado_Corrompido_Fechado_0
       rect:
         serializedVersion: 2
-        x: 62
-        y: 62
-        width: 17
-        height: 21
+        x: 106
+        y: 106
+        width: 34
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +134,52 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: cece2315eeec6ff90800000000000000
-      internalID: -6920116254448358164
+      spriteID: ebc3d154937f6d700800000000000000
+      internalID: 564910628626316478
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cadeado_Corrompido_Fechado_1
+      rect:
+        serializedVersion: 2
+        x: 305
+        y: 106
+        width: 36
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c3e59ed9b92a53000800000000000000
+      internalID: 15096963018612284
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cadeado_Corrompido_Fechado_2
+      rect:
+        serializedVersion: 2
+        x: 506
+        y: 106
+        width: 36
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5dd64cca661fffb80800000000000000
+      internalID: -8358696960088838699
       vertices: []
       indices: 
       edges: []
@@ -148,7 +198,9 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      cadeado_0: -6920116254448358164
+      Cadeado_Corrompido_Fechado_0: 564910628626316478
+      Cadeado_Corrompido_Fechado_1: 15096963018612284
+      Cadeado_Corrompido_Fechado_2: -8358696960088838699
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
