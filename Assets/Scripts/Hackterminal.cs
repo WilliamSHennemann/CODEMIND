@@ -71,6 +71,19 @@ public class HackTerminal : MonoBehaviour
         [Tooltip("Segundos extras de espera antes de mostrar os objetos (soma com a espera da varredura, se estiver marcada).")]
         [Min(0f)] public float atrasoParaMostrar = 0f;
 
+        public enum ModoCaderno { Normal, NaoGuardar, UsarExemplo }
+
+        [Header("Caderno de comandos (opcional)")]
+        [Tooltip("O que o botão do caderno guarda quando este comando funciona:\n" +
+                 "Normal = o comando que o jogador digitou.\n" +
+                 "Nao Guardar = este comando nunca entra no caderno.\n" +
+                 "Usar Exemplo = guarda o texto de 'Exemplo No Caderno' no lugar. Várias entradas com o mesmo exemplo viram UMA linha só.")]
+        public ModoCaderno caderno = ModoCaderno.Normal;
+
+        [Tooltip("Só vale em 'Usar Exemplo'. Ex.: NomeDoArquivo:1\n" +
+                 "Quando o jogador usa :0 nesta entrada, o final do exemplo vira :0 sozinho (NomeDoArquivo:0).")]
+        public string exemploNoCaderno;
+
         [Header("Cadeado (opcional)")]
         [Tooltip("Cadeado corrompido com a animação de 'fechado'. Some assim que o jogador hackeia.")]
         public GameObject cadeadoFechado;
@@ -145,6 +158,10 @@ public class HackTerminal : MonoBehaviour
     [Tooltip("Também grava cada código enviado em um arquivo de texto (historico_NomeDaFase.txt em Application.persistentDataPath). Útil para o professor revisar.")]
     public bool salvarEmArquivo = false;
 
+    [Header("Caderno de comandos (botão ao lado da barra)")]
+    [Tooltip("Quantos comandos DIFERENTES o caderno guarda (os mais antigos saem primeiro).")]
+    [Min(1)] public int maxComandosUsados = 40;
+
     [Header("Alvos Hackeáveis")]
     public List<AlvoHackeavel> alvos = new List<AlvoHackeavel>();
 
@@ -156,6 +173,7 @@ public class HackTerminal : MonoBehaviour
     public event Action<int, string> AoErro;       // linha + mensagem pronta para mostrar ao jogador
     public event Action<bool> AoTerminar;          // true = terminou sem erros
     public event Action<string, string> AoComandoExecutado;   // nome e valor de um comando que FUNCIONOU (ex.: "Inspection", "1")
+    public event Action AoMudarComandosUsados;                // o caderno de comandos ganhou ou perdeu uma linha
 
     class Linha
     {
@@ -437,6 +455,74 @@ public class HackTerminal : MonoBehaviour
     public void Segurar() => _ocupado++;
     public void Soltar() => _ocupado = Mathf.Max(0, _ocupado - 1);
 
+    // ── Caderno: os comandos que FUNCIONARAM, sem repetir, na ordem em que apareceram pela 1ª vez.
+    // Erros de digitação nunca entram, então a lista só mostra exemplos certos.
+    readonly List<string> _comandosUsados = new List<string>();
+    public IReadOnlyList<string> ComandosUsados => _comandosUsados;
+
+    // Avisa os ouvintes e anota o comando no caderno
+    void NotificarComando(string nome, string valor, AlvoHackeavel alvo)
+    {
+        AoComandoExecutado?.Invoke(nome, valor);
+
+        string comando = TextoParaCaderno(nome, valor, alvo);
+        if (comando == null) return;                       // esta entrada está como "Nao Guardar"
+
+        if (_comandosUsados.Exists(c => string.Equals(c, comando, StringComparison.OrdinalIgnoreCase))) return;
+
+        _comandosUsados.Add(comando);
+        if (_comandosUsados.Count > maxComandosUsados) _comandosUsados.RemoveAt(0);
+        AoMudarComandosUsados?.Invoke();
+    }
+
+    // Decide o que vai para o caderno. Devolve null quando o comando não deve aparecer lá.
+    string TextoParaCaderno(string nome, string valor, AlvoHackeavel alvo)
+    {
+        if (alvo != null && alvo.caderno == AlvoHackeavel.ModoCaderno.NaoGuardar) return null;
+
+        if (alvo != null && alvo.caderno == AlvoHackeavel.ModoCaderno.UsarExemplo
+            && !string.IsNullOrWhiteSpace(alvo.exemploNoCaderno))
+        {
+            string exemplo = alvo.exemploNoCaderno.Trim();
+            if (valor != "0") return exemplo;
+
+            // ":0" (sair/fechar): troca só o final do exemplo por :0
+            int pos = exemplo.LastIndexOf(':');
+            return (pos < 0 ? exemplo : exemplo.Substring(0, pos)) + ":0";
+        }
+
+        // Normal: o comando como o jogador usou, mas com a grafia da lista (não a que foi digitada)
+        AlvoHackeavel conhecido = alvo ?? alvos.Find(a => Igual(a.comando, nome));
+        string nomeCerto = conhecido != null && !string.IsNullOrWhiteSpace(conhecido.comando) ? conhecido.comando.Trim() : nome;
+        return $"{nomeCerto}:{valor}";
+    }
+
+    public void LimparComandosUsados()
+    {
+        _comandosUsados.Clear();
+        AoMudarComandosUsados?.Invoke();
+    }
+
+    // Apaga UM comando do caderno. Se o jogador usar o comando de novo, ele volta para a lista.
+    public void RemoverComandoUsado(string comando)
+    {
+        int removidos = _comandosUsados.RemoveAll(c => string.Equals(c, comando, StringComparison.OrdinalIgnoreCase));
+        if (removidos > 0) AoMudarComandosUsados?.Invoke();
+    }
+
+    // Coloca um comando na caixa de texto (NÃO executa). Se a caixa já tem texto, o comando entra numa linha nova.
+    public void UsarNaCaixa(string comando)
+    {
+        if (commandInput == null || string.IsNullOrEmpty(comando)) return;
+
+        commandInput.text = string.IsNullOrWhiteSpace(commandInput.text)
+            ? comando
+            : commandInput.text.TrimEnd() + "\n" + comando;
+
+        commandInput.ActivateInputField();
+        StartCoroutine(CursorNoFim());
+    }
+
     public void Parar()
     {
         StopAllCoroutines();
@@ -503,7 +589,7 @@ public class HackTerminal : MonoBehaviour
             bool avisou = false;
             if (ativar && alvo != null && (alvo.esperarVarredura || alvo.atrasoParaMostrar > 0f))
             {
-                AoComandoExecutado?.Invoke(p.nome, p.valor);
+                NotificarComando(p.nome, p.valor, alvo);
                 avisou = true;
 
                 if (alvo.esperarVarredura)
@@ -544,7 +630,7 @@ public class HackTerminal : MonoBehaviour
             }
 
             // Avisa quem estiver ouvindo (ex.: TextoInspecionavel) que este comando acabou de funcionar
-            if (!avisou) AoComandoExecutado?.Invoke(p.nome, p.valor);
+            if (!avisou) NotificarComando(p.nome, p.valor, alvo);
 
             if (espera != null && i < passos.Count - 1) yield return espera;
         }
