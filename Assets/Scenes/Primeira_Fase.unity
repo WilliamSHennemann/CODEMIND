@@ -15360,6 +15360,7 @@ MonoBehaviour:
   usarHistorico: 1
   maxHistorico: 100
   salvarEmArquivo: 0
+  maxComandosUsados: 40
   alvos:
   - comando: Inspection
     objetos:
@@ -15371,6 +15372,8 @@ MonoBehaviour:
     substituiResultadoAnterior: 1
     esperarVarredura: 1
     atrasoParaMostrar: 1
+    caderno: 0
+    exemploNoCaderno: 
     cadeadoFechado: {fileID: 0}
     cadeadoAbrindo: {fileID: 0}
     duracaoAbertura: 1
@@ -15385,6 +15388,8 @@ MonoBehaviour:
     substituiResultadoAnterior: 1
     esperarVarredura: 1
     atrasoParaMostrar: 1
+    caderno: 0
+    exemploNoCaderno: 
     cadeadoFechado: {fileID: 2107099398}
     cadeadoAbrindo: {fileID: 0}
     duracaoAbertura: 1
@@ -15398,6 +15403,8 @@ MonoBehaviour:
     substituiResultadoAnterior: 0
     esperarVarredura: 0
     atrasoParaMostrar: 0
+    caderno: 0
+    exemploNoCaderno: 
     cadeadoFechado: {fileID: 0}
     cadeadoAbrindo: {fileID: 0}
     duracaoAbertura: 1
@@ -15411,6 +15418,8 @@ MonoBehaviour:
     substituiResultadoAnterior: 0
     esperarVarredura: 0
     atrasoParaMostrar: 0
+    caderno: 0
+    exemploNoCaderno: 
     cadeadoFechado: {fileID: 0}
     cadeadoAbrindo: {fileID: 0}
     duracaoAbertura: 1
@@ -15424,6 +15433,8 @@ MonoBehaviour:
     substituiResultadoAnterior: 0
     esperarVarredura: 0
     atrasoParaMostrar: 0
+    caderno: 0
+    exemploNoCaderno: 
     cadeadoFechado: {fileID: 0}
     cadeadoAbrindo: {fileID: 0}
     duracaoAbertura: 1
@@ -15437,6 +15448,8 @@ MonoBehaviour:
     substituiResultadoAnterior: 0
     esperarVarredura: 0
     atrasoParaMostrar: 0
+    caderno: 0
+    exemploNoCaderno: 
     cadeadoFechado: {fileID: 0}
     cadeadoAbrindo: {fileID: 0}
     duracaoAbertura: 1
@@ -15450,6 +15463,8 @@ MonoBehaviour:
     substituiResultadoAnterior: 0
     esperarVarredura: 0
     atrasoParaMostrar: 0
+    caderno: 0
+    exemploNoCaderno: 
     cadeadoFechado: {fileID: 0}
     cadeadoAbrindo: {fileID: 0}
     duracaoAbertura: 1
@@ -15463,6 +15478,8 @@ MonoBehaviour:
     substituiResultadoAnterior: 0
     esperarVarredura: 0
     atrasoParaMostrar: 0
+    caderno: 0
+    exemploNoCaderno: 
     cadeadoFechado: {fileID: 0}
     cadeadoAbrindo: {fileID: 0}
     duracaoAbertura: 1
@@ -15476,6 +15493,8 @@ MonoBehaviour:
     substituiResultadoAnterior: 0
     esperarVarredura: 0
     atrasoParaMostrar: 0
+    caderno: 0
+    exemploNoCaderno: 
     cadeadoFechado: {fileID: 0}
     cadeadoAbrindo: {fileID: 0}
     duracaoAbertura: 1
@@ -15489,6 +15508,8 @@ MonoBehaviour:
     substituiResultadoAnterior: 0
     esperarVarredura: 0
     atrasoParaMostrar: 0
+    caderno: 0
+    exemploNoCaderno: 
     cadeadoFechado: {fileID: 0}
     cadeadoAbrindo: {fileID: 0}
     duracaoAbertura: 1
@@ -15502,6 +15523,8 @@ MonoBehaviour:
     substituiResultadoAnterior: 0
     esperarVarredura: 0
     atrasoParaMostrar: 0
+    caderno: 0
+    exemploNoCaderno: 
     cadeadoFechado: {fileID: 0}
     cadeadoAbrindo: {fileID: 0}
     duracaoAbertura: 1
@@ -15515,6 +15538,8 @@ MonoBehaviour:
     substituiResultadoAnterior: 0
     esperarVarredura: 0
     atrasoParaMostrar: 0
+    caderno: 0
+    exemploNoCaderno: 
     cadeadoFechado: {fileID: 0}
     cadeadoAbrindo: {fileID: 0}
     duracaoAbertura: 1
@@ -15528,6 +15553,8 @@ MonoBehaviour:
     substituiResultadoAnterior: 0
     esperarVarredura: 0
     atrasoParaMostrar: 0
+    caderno: 0
+    exemploNoCaderno: 
     cadeadoFechado: {fileID: 0}
     cadeadoAbrindo: {fileID: 0}
     duracaoAbertura: 1
@@ -15541,6 +15568,8 @@ MonoBehaviour:
     substituiResultadoAnterior: 0
     esperarVarredura: 0
     atrasoParaMostrar: 0
+    caderno: 0
+    exemploNoCaderno: 
     cadeadoFechado: {fileID: 0}
     cadeadoAbrindo: {fileID: 0}
     duracaoAbertura: 1
@@ -15554,6 +15583,8 @@ MonoBehaviour:
     substituiResultadoAnterior: 1
     esperarVarredura: 0
     atrasoParaMostrar: 0
+    caderno: 0
+    exemploNoCaderno: 
     cadeadoFechado: {fileID: 1094692497}
     cadeadoAbrindo: {fileID: 1843082102}
     duracaoAbertura: 1
@@ -15567,6 +15598,8 @@ MonoBehaviour:
     substituiResultadoAnterior: 1
     esperarVarredura: 0
     atrasoParaMostrar: 0
+    caderno: 0
+    exemploNoCaderno: 
     cadeadoFechado: {fileID: 871969869}
     cadeadoAbrindo: {fileID: 279909199}
     duracaoAbertura: 1
@@ -15580,6 +15613,8 @@ MonoBehaviour:
     substituiResultadoAnterior: 0
     esperarVarredura: 0
     atrasoParaMostrar: 0
+    caderno: 0
+    exemploNoCaderno: 
     cadeadoFechado: {fileID: 0}
     cadeadoAbrindo: {fileID: 0}
     duracaoAbertura: 1
@@ -16574,11 +16609,21 @@ MonoBehaviour:
   caixaDeTexto: {fileID: 422352686}
   textoExibido: {fileID: 945383841}
   linhas:
-  - 'Jerry: Vixi, oque aconteceu aqui, esta tudo trancado.'
-  - 'Jerry: Voce esta vendo aquela pasta com o cadeado corrompido?'
-  - 'Jerry: Tenta hackear ela, ela tinha umas senhas uteis nao?'
-  - 'Jerry: Talvez elas ajudem a abrir o seu cofre, ele tem todo o backup do PC.'
-  - 'Jerry: Pelo que eu me lembre.'
+  - 'Jerry: Vixi... o que aconteceu aqui? Esta tudo trancado!eu aqui, esta tudo trancado.'
+  - 'Jerry: Isso nao foi um bug. Alguem mexeu no seu PC.'
+  - 'Jerry: Voce esta vendo aquela pasta com o cadeado corrompido, piscando?'
+  - 'Jerry: As outras estao todas trancadas, mas essa esta diferente. Ela se chama
+    Documentos.'
+  - 'Jerry: Tenta hackear ela. Primeiro escolhe a pasta: "Documentos:1"'
+  - 'Jerry: Agora invade ela: Hack Folder:1. Se nao me engano, la ficavam as suas
+    senhas uteis.'
+  - 'Jerry: Talvez uma dessas senhas abra o seu cofre. Lembra dele?'
+  - 'Jerry: Ele guarda o backup inteiro do PC. Se a gente abrir, consegue ver o que
+    sobrou.'
+  - 'Jerry: Pelo que eu me lembre, pelo menos. Faz tempo que voce nao mexe nisso,
+    hein?'
+  - 'Jerry: Viu o botao ao lado da barra? Ele guarda os comandos que voce ja usou.
+    Se esquecer algum, abre ele e clica no comando.'
   atrasoInicial: 2
   atrasoPorCaractere: 0.03
   atrasoParaSumir: 3
