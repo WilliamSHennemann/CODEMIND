@@ -84,6 +84,18 @@ public class HackTerminal : MonoBehaviour
                  "Quando o jogador usa :0 nesta entrada, o final do exemplo vira :0 sozinho (NomeDoArquivo:0).")]
         public string exemploNoCaderno;
 
+        [Header("Falas em sequência (opcional)")]
+        [Tooltip("Nome do grupo. Todas as entradas com o MESMO nome contam juntas.\n" +
+                 "Ex.: 'arquivo inutil' em todos os arquivos que não têm a senha.\n" +
+                 "Deixe vazio para não usar.")]
+        public string grupoDeFalas;
+
+        [Tooltip("Uma fala (GameObject, ex.: o texto do Jerry) por ordem de uso: o 1º arquivo diferente do grupo que o jogador abre mostra a fala 1, o 2º mostra a 2...\n" +
+                 "A última fala se repete dali em diante. Reabrir o MESMO arquivo repete a fala que ele já deu.\n" +
+                 "Deixe a lista vazia numa entrada com Grupo De Falas preenchido para ela só ESCONDER a fala atual do grupo (use no arquivo certo).\n" +
+                 "Deixe as falas DESATIVADAS no Inspector.")]
+        public List<GameObject> falasEmSequencia = new List<GameObject>();
+
         [Header("Cadeado (opcional)")]
         [Tooltip("Cadeado corrompido com a animação de 'fechado'. Some assim que o jogador hackeia.")]
         public GameObject cadeadoFechado;
@@ -162,6 +174,20 @@ public class HackTerminal : MonoBehaviour
     [Tooltip("Quantos comandos DIFERENTES o caderno guarda (os mais antigos saem primeiro).")]
     [Min(1)] public int maxComandosUsados = 40;
 
+    [Header("Falas dos arquivos errados (opcional) — configura UMA vez, vale para todos os arquivos")]
+    [Tooltip("As falas do Jerry (GameObjects DESATIVADOS), em ordem: o 1º arquivo errado que o jogador abre mostra a fala 1, o 2º mostra a 2...\n" +
+             "A última se repete. Reabrir o mesmo arquivo repete a fala que ele já deu.\n" +
+             "Vale para todo arquivo que tenha o componente ArquivoAberto (selecione os 12 janelas de uma vez e use Add Component).")]
+    public List<GameObject> falasDeArquivoErrado = new List<GameObject>();
+
+    [Tooltip("Os arquivos que NÃO são errados (os que têm a senha). Escreva o nome igual ao do GameObject da janela (ou ao campo 'Nome Do Arquivo' do ArquivoAberto).\n" +
+             "Abrir um deles esconde a fala de 'não é aqui'.")]
+    public List<string> arquivosCertos = new List<string>();
+
+    [Tooltip("As falas só valem enquanto este contexto estiver ativo. Ex.: Documentos (mesma regra do Contexto Necessario: ',' = E, '|' = OU).\n" +
+             "Evita que arquivos de OUTRA pasta (como o cofre) também gerem a fala de 'arquivo errado'. Vazio = sempre vale.")]
+    public string contextoDasFalas = "Documentos";
+
     [Header("Alvos Hackeáveis")]
     public List<AlvoHackeavel> alvos = new List<AlvoHackeavel>();
 
@@ -198,6 +224,10 @@ public class HackTerminal : MonoBehaviour
     readonly Dictionary<string, int> _quando = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
     int _carimbo;
 
+    // ── Falas em sequência: por grupo, a ordem em que cada entrada foi usada pela 1ª vez e a fala que está na tela ──
+    readonly Dictionary<string, Dictionary<AlvoHackeavel, int>> _ordemDaFala = new Dictionary<string, Dictionary<AlvoHackeavel, int>>(StringComparer.OrdinalIgnoreCase);
+    readonly Dictionary<string, GameObject> _falaAtual = new Dictionary<string, GameObject>(StringComparer.OrdinalIgnoreCase);
+
     // ── Arquivos abertos NA TELA (avisados pelo componente ArquivoAberto, ou por DefinirArquivoAtual) ──
     // O último da lista é o "arquivo atual". Um contexto pode ser o nome de um arquivo aberto, além de um comando ativo.
     readonly List<(string nome, int quando)> _arquivos = new List<(string nome, int quando)>();
@@ -212,6 +242,51 @@ public class HackTerminal : MonoBehaviour
 
         _arquivos.RemoveAll(a => Igual(a.nome, nome));   // reabrir = vira o mais recente
         _arquivos.Add((nome, ++_carimbo));
+
+        FalaDoArquivo(nome);
+    }
+
+    // ── Falas dos arquivos errados ──
+    readonly Dictionary<string, int> _ordemDosArquivos = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
+    GameObject _falaDeArquivo;
+    string _arquivoDaFala;
+    AlvoHackeavel _exigenciaDasFalas;
+
+    void FalaDoArquivo(string nome)
+    {
+        if (falasDeArquivoErrado == null || falasDeArquivoErrado.Count == 0) return;
+
+        // só vale dentro do contexto configurado (ex.: a pasta Documentos)
+        if (!string.IsNullOrWhiteSpace(contextoDasFalas))
+        {
+            if (_exigenciaDasFalas == null || _exigenciaDasFalas.contextoNecessario != contextoDasFalas)
+                _exigenciaDasFalas = new AlvoHackeavel { contextoNecessario = contextoDasFalas };
+
+            if (!ContextoOk(_exigenciaDasFalas)) return;
+        }
+
+        EsconderFalaDeArquivo();                                   // a fala anterior some
+        if (arquivosCertos != null && arquivosCertos.Exists(c => Igual(c, nome))) return;   // arquivo certo: sem fala de erro
+
+        if (!_ordemDosArquivos.TryGetValue(nome, out int posicao))
+        {
+            posicao = _ordemDosArquivos.Count;                     // 0 = primeiro arquivo errado, 1 = segundo...
+            _ordemDosArquivos[nome] = posicao;
+        }
+
+        GameObject fala = falasDeArquivoErrado[Mathf.Min(posicao, falasDeArquivoErrado.Count - 1)];
+        if (fala == null) return;
+
+        fala.SetActive(true);
+        _falaDeArquivo = fala;
+        _arquivoDaFala = nome;
+    }
+
+    void EsconderFalaDeArquivo()
+    {
+        if (_falaDeArquivo != null) _falaDeArquivo.SetActive(false);
+        _falaDeArquivo = null;
+        _arquivoDaFala = null;
     }
 
     // Chame quando o arquivo sumir. Se havia outro aberto por baixo, ele volta a ser o atual.
@@ -220,6 +295,8 @@ public class HackTerminal : MonoBehaviour
         if (string.IsNullOrWhiteSpace(nome)) return;
         nome = nome.Trim();
         _arquivos.RemoveAll(a => Igual(a.nome, nome));
+
+        if (_arquivoDaFala != null && Igual(_arquivoDaFala, nome)) EsconderFalaDeArquivo();   // fechou o arquivo da fala
     }
 
     readonly Dictionary<string, List<Linha>> _funcoes = new Dictionary<string, List<Linha>>(StringComparer.OrdinalIgnoreCase);
@@ -252,6 +329,11 @@ public class HackTerminal : MonoBehaviour
         Parar();             // não deixa um programa da cena anterior continuar rodando
         TrocarHistorico(cena.name);
         _funcoes.Clear();    // funções valem só dentro da fase
+        _ordemDaFala.Clear();   // a contagem das falas em sequência recomeça a cada fase
+        _falaAtual.Clear();
+        _ordemDosArquivos.Clear();
+        _falaDeArquivo = null;
+        _arquivoDaFala = null;
         foreach (AlvoHackeavel a in alvos) a.destrancado = false;
         ConectarNaCenaAtual();
     }
@@ -870,10 +952,43 @@ public class HackTerminal : MonoBehaviour
             _quando.Remove(nome);
         }
 
+        MostrarFalaEmSequencia(alvo, ativar);
+
         if (ativar && cameraFocus != null && (alvo == null || alvo.moverCamera))
             cameraFocus.Focar(primeiro);
 
         return true;
+    }
+
+    // Escolhe a fala pela ordem em que os arquivos DIFERENTES do grupo foram abertos.
+    // Sem lista de falas: só esconde a fala que estava na tela (serve para o arquivo certo).
+    void MostrarFalaEmSequencia(AlvoHackeavel alvo, bool ativar)
+    {
+        if (alvo == null || string.IsNullOrWhiteSpace(alvo.grupoDeFalas)) return;
+        string grupo = alvo.grupoDeFalas.Trim();
+
+        // esconde a fala que estava aparecendo deste grupo
+        if (_falaAtual.TryGetValue(grupo, out GameObject atual) && atual != null) atual.SetActive(false);
+        _falaAtual.Remove(grupo);
+
+        if (!ativar || alvo.falasEmSequencia == null || alvo.falasEmSequencia.Count == 0) return;
+
+        if (!_ordemDaFala.TryGetValue(grupo, out Dictionary<AlvoHackeavel, int> ordem))
+        {
+            ordem = new Dictionary<AlvoHackeavel, int>();
+            _ordemDaFala[grupo] = ordem;
+        }
+        if (!ordem.TryGetValue(alvo, out int posicao))
+        {
+            posicao = ordem.Count;        // 0 = primeiro arquivo diferente aberto, 1 = segundo...
+            ordem[alvo] = posicao;
+        }
+
+        GameObject fala = alvo.falasEmSequencia[Mathf.Min(posicao, alvo.falasEmSequencia.Count - 1)];
+        if (fala == null) return;
+
+        fala.SetActive(true);
+        _falaAtual[grupo] = fala;
     }
 
     // ───────────────────────── Utilidades ─────────────────────────
