@@ -1,0 +1,1118 @@
+fileFormatVersion: 2
+guid: ba492466cf7a3ae4d83f1c4342d94b4f
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -7095452264495506374
+    second: Tela carregando_0
+  - first:
+      213: -2946905426940563067
+    second: Tela carregando_1
+  - first:
+      213: -2216259219790966390
+    second: Tela carregando_2
+  - first:
+      213: 2985062667040609118
+    second: Tela carregando_3
+  - first:
+      213: -2983745285842109156
+    second: Tela carregando_4
+  - first:
+      213: 4462124409435465587
+    second: Tela carregando_5
+  - first:
+      213: 9052671654482624846
+    second: Tela carregando_6
+  - first:
+      213: 2589003776602387455
+    second: Tela carregando_7
+  - first:
+      213: -3527221654868729846
+    second: Tela carregando_8
+  - first:
+      213: -7970562962029783726
+    second: Tela carregando_9
+  - first:
+      213: 6876158335358710811
+    second: Tela carregando_10
+  - first:
+      213: 987050302044201085
+    second: Tela carregando_11
+  - first:
+      213: 3393257830349848738
+    second: Tela carregando_12
+  - first:
+      213: -2471466141051582500
+    second: Tela carregando_13
+  - first:
+      213: 4821539962095149031
+    second: Tela carregando_14
+  - first:
+      213: -365450953536339255
+    second: Tela carregando_15
+  - first:
+      213: -1460829304672778327
+    second: Tela carregando_16
+  - first:
+      213: -5151406769647972567
+    second: Tela carregando_17
+  - first:
+      213: 840836607271756709
+    second: Tela carregando_18
+  - first:
+      213: -5490527998492680541
+    second: Tela carregando_19
+  - first:
+      213: 5133560029273034176
+    second: Tela carregando_20
+  - first:
+      213: -8536462447983368154
+    second: Tela carregando_21
+  - first:
+      213: 7650510626163508799
+    second: Tela carregando_22
+  - first:
+      213: -1452777367668433166
+    second: Tela carregando_23
+  - first:
+      213: -4053837094704283006
+    second: Tela carregando_24
+  - first:
+      213: -981770964442335182
+    second: Tela carregando_25
+  - first:
+      213: -4030057877373710479
+    second: Tela carregando_26
+  - first:
+      213: 7468640109183418379
+    second: Tela carregando_27
+  - first:
+      213: 8147568487018235906
+    second: Tela carregando_28
+  - first:
+      213: 8786506797642301973
+    second: Tela carregando_29
+  - first:
+      213: -8392029552992395132
+    second: Tela carregando_30
+  - first:
+      213: -4732060993627002372
+    second: Tela carregando_31
+  - first:
+      213: 5428113364928052192
+    second: Tela carregando_32
+  - first:
+      213: 7485517605705743645
+    second: Tela carregando_33
+  - first:
+      213: -8193275784357021640
+    second: Tela carregando_34
+  - first:
+      213: 8221895409138165033
+    second: Tela carregando_35
+  - first:
+      213: 8545688029303902740
+    second: Tela carregando_36
+  - first:
+      213: 7978804967062483902
+    second: Tela carregando_37
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Tela carregando_0
+      rect:
+        serializedVersion: 2
+        x: 397
+        y: 138
+        width: 18
+        height: 164
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a3c110e32c3e78d90800000000000000
+      internalID: -7095452264495506374
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tela carregando_1
+      rect:
+        serializedVersion: 2
+        x: 1200
+        y: 138
+        width: 36
+        height: 164
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5817988a02d7a17d0800000000000000
+      internalID: -2946905426940563067
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tela carregando_2
+      rect:
+        serializedVersion: 2
+        x: 2003
+        y: 138
+        width: 54
+        height: 164
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a81dc2a5bf34e31e0800000000000000
+      internalID: -2216259219790966390
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tela carregando_3
+      rect:
+        serializedVersion: 2
+        x: 2806
+        y: 138
+        width: 72
+        height: 164
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e535c3d1ea21d6920800000000000000
+      internalID: 2985062667040609118
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tela carregando_4
+      rect:
+        serializedVersion: 2
+        x: 3609
+        y: 138
+        width: 90
+        height: 164
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c1d7229987b9796d0800000000000000
+      internalID: -2983745285842109156
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tela carregando_5
+      rect:
+        serializedVersion: 2
+        x: 4413
+        y: 138
+        width: 106
+        height: 164
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 37720005286aced30800000000000000
+      internalID: 4462124409435465587
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tela carregando_6
+      rect:
+        serializedVersion: 2
+        x: 5209
+        y: 138
+        width: 138
+        height: 164
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e414fa918ec81ad70800000000000000
+      internalID: 9052671654482624846
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tela carregando_7
+      rect:
+        serializedVersion: 2
+        x: 6009
+        y: 138
+        width: 162
+        height: 164
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ff3b78ab73dfde320800000000000000
+      internalID: 2589003776602387455
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tela carregando_8
+      rect:
+        serializedVersion: 2
+        x: 6809
+        y: 138
+        width: 186
+        height: 164
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a00eb79c79acc0fc0800000000000000
+      internalID: -3527221654868729846
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tela carregando_9
+      rect:
+        serializedVersion: 2
+        x: 7608
+        y: 138
+        width: 212
+        height: 164
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2555454473fd26190800000000000000
+      internalID: -7970562962029783726
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tela carregando_10
+      rect:
+        serializedVersion: 2
+        x: 8410
+        y: 138
+        width: 232
+        height: 164
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b14b56613950d6f50800000000000000
+      internalID: 6876158335358710811
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tela carregando_11
+      rect:
+        serializedVersion: 2
+        x: 9212
+        y: 138
+        width: 252
+        height: 164
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d7069c42505b2bd00800000000000000
+      internalID: 987050302044201085
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tela carregando_12
+      rect:
+        serializedVersion: 2
+        x: 10015
+        y: 138
+        width: 270
+        height: 164
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2a0c059b406471f20800000000000000
+      internalID: 3393257830349848738
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tela carregando_13
+      rect:
+        serializedVersion: 2
+        x: 10804
+        y: 138
+        width: 316
+        height: 164
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cd7073c93a693bdd0800000000000000
+      internalID: -2471466141051582500
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tela carregando_14
+      rect:
+        serializedVersion: 2
+        x: 11605
+        y: 138
+        width: 338
+        height: 164
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7ef1807cc0d89e240800000000000000
+      internalID: 4821539962095149031
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tela carregando_15
+      rect:
+        serializedVersion: 2
+        x: 12405
+        y: 138
+        width: 362
+        height: 164
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9c283a34b48adeaf0800000000000000
+      internalID: -365450953536339255
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tela carregando_16
+      rect:
+        serializedVersion: 2
+        x: 13205
+        y: 138
+        width: 386
+        height: 164
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9a78f79bc771abbe0800000000000000
+      internalID: -1460829304672778327
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tela carregando_17
+      rect:
+        serializedVersion: 2
+        x: 13996
+        y: 138
+        width: 428
+        height: 164
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 92f079916d68288b0800000000000000
+      internalID: -5151406769647972567
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tela carregando_18
+      rect:
+        serializedVersion: 2
+        x: 14798
+        y: 138
+        width: 448
+        height: 164
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5a3e39a70704bab00800000000000000
+      internalID: 840836607271756709
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tela carregando_19
+      rect:
+        serializedVersion: 2
+        x: 15610
+        y: 138
+        width: 448
+        height: 164
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3aed18c10e9bdc3b0800000000000000
+      internalID: -5490527998492680541
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tela carregando_20
+      rect:
+        serializedVersion: 2
+        x: 16432
+        y: 138
+        width: 428
+        height: 164
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0cd86f9d5a11e3740800000000000000
+      internalID: 5133560029273034176
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tela carregando_21
+      rect:
+        serializedVersion: 2
+        x: 17265
+        y: 138
+        width: 386
+        height: 164
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6286d75b1a4688980800000000000000
+      internalID: -8536462447983368154
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tela carregando_22
+      rect:
+        serializedVersion: 2
+        x: 18089
+        y: 138
+        width: 362
+        height: 164
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f36c3de51e21c2a60800000000000000
+      internalID: 7650510626163508799
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tela carregando_23
+      rect:
+        serializedVersion: 2
+        x: 18913
+        y: 138
+        width: 338
+        height: 164
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2fe55666ea2b6dbe0800000000000000
+      internalID: -1452777367668433166
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tela carregando_24
+      rect:
+        serializedVersion: 2
+        x: 19736
+        y: 138
+        width: 316
+        height: 164
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 28289d8f3a0edb7c0800000000000000
+      internalID: -4053837094704283006
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tela carregando_25
+      rect:
+        serializedVersion: 2
+        x: 20571
+        y: 138
+        width: 270
+        height: 164
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2383f9d628c0062f0800000000000000
+      internalID: -981770964442335182
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tela carregando_26
+      rect:
+        serializedVersion: 2
+        x: 21392
+        y: 138
+        width: 252
+        height: 164
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 17f00e276bb5218c0800000000000000
+      internalID: -4030057877373710479
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tela carregando_27
+      rect:
+        serializedVersion: 2
+        x: 22214
+        y: 138
+        width: 232
+        height: 164
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b00cc17db90f5a760800000000000000
+      internalID: 7468640109183418379
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tela carregando_28
+      rect:
+        serializedVersion: 2
+        x: 23036
+        y: 138
+        width: 212
+        height: 164
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 20883eb0f5af11170800000000000000
+      internalID: 8147568487018235906
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tela carregando_29
+      rect:
+        serializedVersion: 2
+        x: 23861
+        y: 138
+        width: 186
+        height: 164
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 512460a2161ffe970800000000000000
+      internalID: 8786506797642301973
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tela carregando_30
+      rect:
+        serializedVersion: 2
+        x: 24685
+        y: 138
+        width: 162
+        height: 164
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 480ee4d9595898b80800000000000000
+      internalID: -8392029552992395132
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tela carregando_31
+      rect:
+        serializedVersion: 2
+        x: 25509
+        y: 138
+        width: 138
+        height: 164
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cf9616b0997545eb0800000000000000
+      internalID: -4732060993627002372
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tela carregando_32
+      rect:
+        serializedVersion: 2
+        x: 26337
+        y: 138
+        width: 106
+        height: 164
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0eb36159858845b40800000000000000
+      internalID: 5428113364928052192
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tela carregando_33
+      rect:
+        serializedVersion: 2
+        x: 27157
+        y: 138
+        width: 90
+        height: 164
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d1df5083a96e1e760800000000000000
+      internalID: 7485517605705743645
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tela carregando_34
+      rect:
+        serializedVersion: 2
+        x: 27978
+        y: 138
+        width: 72
+        height: 164
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 838f69e7513ab4e80800000000000000
+      internalID: -8193275784357021640
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tela carregando_35
+      rect:
+        serializedVersion: 2
+        x: 28799
+        y: 138
+        width: 54
+        height: 164
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 925681a205a0a1270800000000000000
+      internalID: 8221895409138165033
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tela carregando_36
+      rect:
+        serializedVersion: 2
+        x: 29620
+        y: 138
+        width: 36
+        height: 164
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 41297f35cf1689670800000000000000
+      internalID: 8545688029303902740
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tela carregando_37
+      rect:
+        serializedVersion: 2
+        x: 30441
+        y: 138
+        width: 18
+        height: 164
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: eb3b1e118d86abe60800000000000000
+      internalID: 7978804967062483902
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      Tela carregando_0: -7095452264495506374
+      Tela carregando_1: -2946905426940563067
+      Tela carregando_10: 6876158335358710811
+      Tela carregando_11: 987050302044201085
+      Tela carregando_12: 3393257830349848738
+      Tela carregando_13: -2471466141051582500
+      Tela carregando_14: 4821539962095149031
+      Tela carregando_15: -365450953536339255
+      Tela carregando_16: -1460829304672778327
+      Tela carregando_17: -5151406769647972567
+      Tela carregando_18: 840836607271756709
+      Tela carregando_19: -5490527998492680541
+      Tela carregando_2: -2216259219790966390
+      Tela carregando_20: 5133560029273034176
+      Tela carregando_21: -8536462447983368154
+      Tela carregando_22: 7650510626163508799
+      Tela carregando_23: -1452777367668433166
+      Tela carregando_24: -4053837094704283006
+      Tela carregando_25: -981770964442335182
+      Tela carregando_26: -4030057877373710479
+      Tela carregando_27: 7468640109183418379
+      Tela carregando_28: 8147568487018235906
+      Tela carregando_29: 8786506797642301973
+      Tela carregando_3: 2985062667040609118
+      Tela carregando_30: -8392029552992395132
+      Tela carregando_31: -4732060993627002372
+      Tela carregando_32: 5428113364928052192
+      Tela carregando_33: 7485517605705743645
+      Tela carregando_34: -8193275784357021640
+      Tela carregando_35: 8221895409138165033
+      Tela carregando_36: 8545688029303902740
+      Tela carregando_37: 7978804967062483902
+      Tela carregando_4: -2983745285842109156
+      Tela carregando_5: 4462124409435465587
+      Tela carregando_6: 9052671654482624846
+      Tela carregando_7: 2589003776602387455
+      Tela carregando_8: -3527221654868729846
+      Tela carregando_9: -7970562962029783726
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

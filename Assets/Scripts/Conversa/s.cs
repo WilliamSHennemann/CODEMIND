@@ -2,15 +2,21 @@ using System.Collections;
 using UnityEngine;
 using TMPro;
 
-public enum TipoDeGatilho { Clique, AoAtivar }
+public enum RadioAoComecar { NaoMexer, CongelarNoFrameAtual, LigarAnimando }
+public enum RadioAoTerminar { NaoMexer, CongelarNoFrameAtual, VoltarAoPrimeiroFrame }
 
 public class DialogueBox : MonoBehaviour
 {
-    [SerializeField] private TipoDeGatilho gatilho = TipoDeGatilho.Clique;
+    [Header("Quando o diálogo começa (cada um é opcional, pode marcar os dois)")]
+    [Tooltip("Começa sozinho quando o objeto é ativado (início da fase).")]
+    [SerializeField] private bool iniciarAoAtivar = false;
+    [Tooltip("Começa quando clica no objeto (precisa de um Collider).")]
+    [SerializeField] private bool iniciarComClique = true;
+
+    [Header("Texto")]
     [SerializeField] private GameObject caixaDeTexto;
     [SerializeField] private TMP_Text textoExibido;
     [SerializeField] private string[] linhas;
-    [SerializeField] private float atrasoInicial = 5f;
     [SerializeField] private float atrasoPorCaractere = 0.03f;
     [SerializeField] private float atrasoParaSumir = 5f;
 
@@ -19,21 +25,16 @@ public class DialogueBox : MonoBehaviour
     [SerializeField] private bool avancarComClique = true;
     [SerializeField] private KeyCode teclaAvancar = KeyCode.Space;
 
-    [Tooltip("Só usado se o gatilho for Clique e precisar ligar uma animação junto")]
+    [Header("Rádio (opcional)")]
     [SerializeField] private AnimationR Radio;
-
-    [Header("Ao terminar as falas")]
-    [Tooltip("Se marcado, ESTE objeto (ex: o botão LigaRadio) também some quando o diálogo acaba.")]
-    [SerializeField] private bool sumirEsteObjetoNoFim = true;
-    [Tooltip("OPCIONAL: outros objetos que devem sumir junto quando o diálogo acaba.")]
-    [SerializeField] private GameObject[] outrosObjetosParaSumir;
-
-    [Header("Fim da fase (opcional)")]
-    [Tooltip("OPCIONAL: arraste um objeto com MenuManager. Quando as falas terminarem, ele carrega a próxima fase (chama Jogar()).")]
-    [SerializeField] private MenuManager irParaProximaFase;
+    [Tooltip("Se marcado, o clique só funciona depois que o rádio já ligou (comportamento antigo).")]
+    [SerializeField] private bool exigirRadioLigadoParaClicar = true;
+    [Tooltip("O que fazer com o rádio quando o diálogo começa. CongelarNoFrameAtual = para no sprite em que estava.")]
+    [SerializeField] private RadioAoComecar radioAoComecarDialogo = RadioAoComecar.CongelarNoFrameAtual;
+    [Tooltip("O que fazer com o rádio quando o diálogo termina. NaoMexer = ele continua como está (não some).")]
+    [SerializeField] private RadioAoTerminar radioAoTerminarDialogo = RadioAoTerminar.NaoMexer;
 
     private int linhaAtual = 0;
-    private bool radioLigado = false;
     private bool dialogoAtivado = false;
 
     private bool digitando = false;
@@ -42,36 +43,23 @@ public class DialogueBox : MonoBehaviour
 
     private void Start()
     {
-        if (gatilho == TipoDeGatilho.Clique)
-        {
+        // se o diálogo já começou no OnEnable, não esconde a caixa
+        if (!dialogoAtivado && caixaDeTexto != null)
             caixaDeTexto.SetActive(false);
-
-            if (Radio != null)
-                StartCoroutine(LigarRadioAposDelay());
-            else
-                radioLigado = true;
-        }
     }
 
     private void OnEnable()
     {
-        if (gatilho == TipoDeGatilho.AoAtivar && !dialogoAtivado)
-        {
-            dialogoAtivado = true;
-
-            if (Radio != null)
-                Radio.ComecarLoop();
-
+        if (iniciarAoAtivar)
             IniciarDialogo();
-        }
     }
 
     private void Update()
     {
-        if (!caixaDeTexto.activeSelf || !podeAvancar) return;
+        if (caixaDeTexto == null || !caixaDeTexto.activeSelf || !podeAvancar) return;
 
         bool pediuAvanco = Input.GetKeyDown(teclaAvancar) ||
-                            (avancarComClique && Input.GetMouseButtonDown(0));
+                           (avancarComClique && Input.GetMouseButtonDown(0));
 
         if (!pediuAvanco) return;
 
@@ -88,28 +76,59 @@ public class DialogueBox : MonoBehaviour
         }
     }
 
-    private IEnumerator LigarRadioAposDelay()
-    {
-        yield return new WaitForSeconds(atrasoInicial);
-        Radio.ComecarLoop();
-        radioLigado = true;
-    }
-
     private void OnMouseDown()
     {
-        if (gatilho != TipoDeGatilho.Clique) return;
-        if (!radioLigado || dialogoAtivado) return;
-        dialogoAtivado = true;
+        if (!iniciarComClique || dialogoAtivado) return;
+
+        if (exigirRadioLigadoParaClicar && Radio != null && !Radio.JaLigou) return;
+
         IniciarDialogo();
     }
 
     private void IniciarDialogo()
     {
+        if (dialogoAtivado) return;
+        if (linhas == null || linhas.Length == 0) return;
+
+        dialogoAtivado = true;
+
+        AplicarRadioAoComecar();
+
         caixaDeTexto.SetActive(true);
         linhaAtual = 0;
         podeAvancar = false;
         MostrarLinha(linhaAtual);
         StartCoroutine(LiberarInputProximoFrame());
+    }
+
+    private void AplicarRadioAoComecar()
+    {
+        if (Radio == null) return;
+
+        switch (radioAoComecarDialogo)
+        {
+            case RadioAoComecar.CongelarNoFrameAtual:
+                Radio.PararLoop();
+                break;
+            case RadioAoComecar.LigarAnimando:
+                if (!Radio.EstaTocando) Radio.ComecarLoop();
+                break;
+        }
+    }
+
+    private void AplicarRadioAoTerminar()
+    {
+        if (Radio == null) return;
+
+        switch (radioAoTerminarDialogo)
+        {
+            case RadioAoTerminar.CongelarNoFrameAtual:
+                Radio.PararLoop();
+                break;
+            case RadioAoTerminar.VoltarAoPrimeiroFrame:
+                Radio.ResetarParaPrimeiroFrame();
+                break;
+        }
     }
 
     private IEnumerator LiberarInputProximoFrame()
@@ -157,22 +176,6 @@ public class DialogueBox : MonoBehaviour
         caixaDeTexto.SetActive(false);
         textoExibido.text = "";
 
-        // Fim das falas: o rádio para e some (só volta quando ComecarLoop for chamado de novo)
-        if (Radio != null)
-            Radio.Esconder();
-
-        if (outrosObjetosParaSumir != null)
-        {
-            foreach (GameObject obj in outrosObjetosParaSumir)
-                if (obj != null && obj != gameObject) obj.SetActive(false);
-        }
-
-        // Fim da fase: manda o jogador para a cena configurada no MenuManager
-        if (irParaProximaFase != null)
-            irParaProximaFase.Jogar();
-
-        // Por último: desativar este objeto interrompe esta coroutine, então nada pode vir depois.
-        if (sumirEsteObjetoNoFim)
-            gameObject.SetActive(false);
+        AplicarRadioAoTerminar();
     }
 }

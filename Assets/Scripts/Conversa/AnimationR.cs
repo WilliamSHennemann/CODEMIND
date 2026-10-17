@@ -1,6 +1,5 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class AnimationR : MonoBehaviour
 {
@@ -8,56 +7,99 @@ public class AnimationR : MonoBehaviour
     [SerializeField] private Sprite[] frames;
     [SerializeField] private float velocidadeAnimacao = 0.08f;
 
-    [Tooltip("Se marcado, o rádio começa invisível e só aparece quando a animação começa (ComecarLoop).")]
-    [SerializeField] private bool comecarEscondido = false;
+    [Header("Início automático (opcional)")]
+    [Tooltip("Se marcado, o rádio começa a animar sozinho quando a fase começa, sem precisar de clique.")]
+    [SerializeField] private bool comecarAoIniciarFase = false;
+    [SerializeField] private float atrasoInicial = 0f;
 
     private Coroutine loopAtual;
+    private Coroutine esperaInicial;
+
+    /// <summary>True depois que o rádio foi ligado pelo menos uma vez (mesmo que depois tenha sido congelado).</summary>
+    public bool JaLigou { get; private set; }
+
+    /// <summary>True enquanto a animação está rodando (false quando congelado).</summary>
+    public bool EstaTocando => loopAtual != null;
 
     private void Awake()
     {
-        Radio.sprite = frames[0]; // fica parado no frame 1 até ser chamado
-
-        if (comecarEscondido)
-            Radio.enabled = false;
+        // fica parado no frame 1 até ser chamado
+        if (Radio != null && frames != null && frames.Length > 0)
+            Radio.sprite = frames[0];
     }
 
-    // Aparece e começa a tocar
+    private void Start()
+    {
+        if (comecarAoIniciarFase)
+            esperaInicial = StartCoroutine(ComecarDepoisDoAtraso());
+    }
+
+    private void OnDisable()
+    {
+        // as coroutines morrem junto com o objeto, então limpa as referências
+        loopAtual = null;
+        esperaInicial = null;
+    }
+
+    private IEnumerator ComecarDepoisDoAtraso()
+    {
+        if (atrasoInicial > 0f)
+            yield return new WaitForSeconds(atrasoInicial);
+
+        esperaInicial = null;
+        ComecarLoop();
+    }
+
     public void ComecarLoop()
     {
-        Radio.enabled = true;
+        CancelarEspera();
 
         if (loopAtual != null)
             StopCoroutine(loopAtual);
 
+        JaLigou = true;
         loopAtual = StartCoroutine(LoopPingPong());
     }
 
-    // Só para a animação (o rádio continua visível, parado no frame 1)
+    /// <summary>Para a animação e deixa o rádio congelado no sprite em que estava.</summary>
     public void PararLoop()
     {
+        CancelarEspera();
+
         if (loopAtual != null)
         {
             StopCoroutine(loopAtual);
             loopAtual = null;
         }
-
-        Radio.sprite = frames[0]; // volta pro frame parado
+        // não mexe no sprite: ele fica exatamente no frame atual
     }
 
-    // Para a animação E some com o rádio
-    public void Esconder()
+    /// <summary>Para a animação e volta pro primeiro frame (use só se quiser mesmo resetar).</summary>
+    public void ResetarParaPrimeiroFrame()
     {
         PararLoop();
-        Radio.enabled = false;
+
+        if (Radio != null && frames != null && frames.Length > 0)
+            Radio.sprite = frames[0];
     }
 
-    public void Mostrar()
+    private void CancelarEspera()
     {
-        Radio.enabled = true;
+        if (esperaInicial != null)
+        {
+            StopCoroutine(esperaInicial);
+            esperaInicial = null;
+        }
     }
 
     private IEnumerator LoopPingPong()
     {
+        if (Radio == null || frames == null || frames.Length == 0)
+        {
+            loopAtual = null;
+            yield break;
+        }
+
         while (true)
         {
             for (int i = 0; i < frames.Length; i++)
