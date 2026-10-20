@@ -5375,7 +5375,7 @@ MonoBehaviour:
   Radio: {fileID: 1783240289}
   exigirRadioLigadoParaClicar: 1
   radioAoComecarDialogo: 2
-  radioAoTerminarDialogo: 0
+  radioAoTerminarDialogo: 2
 --- !u!1 &452650566
 GameObject:
   m_ObjectHideFlags: 0
@@ -8391,7 +8391,7 @@ MonoBehaviour:
   Radio: {fileID: 1783240289}
   exigirRadioLigadoParaClicar: 1
   radioAoComecarDialogo: 1
-  radioAoTerminarDialogo: 0
+  radioAoTerminarDialogo: 2
 --- !u!1 &729543502
 GameObject:
   m_ObjectHideFlags: 0
@@ -13577,7 +13577,7 @@ MonoBehaviour:
   Radio: {fileID: 1783240289}
   exigirRadioLigadoParaClicar: 1
   radioAoComecarDialogo: 2
-  radioAoTerminarDialogo: 0
+  radioAoTerminarDialogo: 2
 --- !u!1 &1154485924
 GameObject:
   m_ObjectHideFlags: 0
@@ -18596,7 +18596,7 @@ MonoBehaviour:
   Radio: {fileID: 1783240289}
   exigirRadioLigadoParaClicar: 1
   radioAoComecarDialogo: 2
-  radioAoTerminarDialogo: 0
+  radioAoTerminarDialogo: 2
 --- !u!4 &1692461988
 Transform:
   m_ObjectHideFlags: 0
@@ -21005,8 +21005,8 @@ MonoBehaviour:
   teclaAvancar: 32
   Radio: {fileID: 1783240289}
   exigirRadioLigadoParaClicar: 1
-  radioAoComecarDialogo: 1
-  radioAoTerminarDialogo: 0
+  radioAoComecarDialogo: 2
+  radioAoTerminarDialogo: 2
 --- !u!4 &1913003490
 Transform:
   m_ObjectHideFlags: 0
