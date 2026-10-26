@@ -52,6 +52,21 @@ public class HackTerminal : MonoBehaviour
                  "Ex: 'Folder, Senha | Admin' -> (Folder E Senha) OU Admin.")]
         public string contextoNecessario;
 
+        [Tooltip("OPCIONAL: esta entrada NÃO vale enquanto qualquer um destes estiver ATIVO (separe por vírgula ou '|').\n" +
+                 "Ex: na entrada 'hack folder' de Documentos, escreva 'Cofre': dentro do cofre ela deixa de valer.")]
+        public string contextoProibido;
+
+        public bool ProibidoAtivo(System.Func<string, bool> estaAtivo)
+        {
+            if (string.IsNullOrWhiteSpace(contextoProibido)) return false;
+            foreach (string r in contextoProibido.Split(new[] { ',', '|' }))
+            {
+                string t = r.Trim();
+                if (t.Length > 0 && estaAtivo(t)) return true;
+            }
+            return false;
+        }
+
         [Tooltip("OPCIONAL: valor exato exigido (ex: '1', 'root', '5'). Use '|' para aceitar mais de um (ex: 'true|1'). Deixe vazio para aceitar qualquer valor.")]
         public string valorEsperado = "1";
 
@@ -70,6 +85,31 @@ public class HackTerminal : MonoBehaviour
 
         [Tooltip("Segundos extras de espera antes de mostrar os objetos (soma com a espera da varredura, se estiver marcada).")]
         [Min(0f)] public float atrasoParaMostrar = 0f;
+
+        public enum ModoCaderno { Normal, NaoGuardar, UsarExemplo }
+
+        [Header("Caderno de comandos (opcional)")]
+        [Tooltip("O que o botão do caderno guarda quando este comando funciona:\n" +
+                 "Normal = o comando que o jogador digitou.\n" +
+                 "Nao Guardar = este comando nunca entra no caderno.\n" +
+                 "Usar Exemplo = guarda o texto de 'Exemplo No Caderno' no lugar. Várias entradas com o mesmo exemplo viram UMA linha só.")]
+        public ModoCaderno caderno = ModoCaderno.Normal;
+
+        [Tooltip("Só vale em 'Usar Exemplo'. Ex.: NomeDoArquivo:1\n" +
+                 "Quando o jogador usa :0 nesta entrada, o final do exemplo vira :0 sozinho (NomeDoArquivo:0).")]
+        public string exemploNoCaderno;
+
+        [Header("Falas em sequência (opcional)")]
+        [Tooltip("Nome do grupo. Todas as entradas com o MESMO nome contam juntas.\n" +
+                 "Ex.: 'arquivo inutil' em todos os arquivos que não têm a senha.\n" +
+                 "Deixe vazio para não usar.")]
+        public string grupoDeFalas;
+
+        [Tooltip("Uma fala (GameObject, ex.: o texto do Jerry) por ordem de uso: o 1º arquivo diferente do grupo que o jogador abre mostra a fala 1, o 2º mostra a 2...\n" +
+                 "A última fala se repete dali em diante. Reabrir o MESMO arquivo repete a fala que ele já deu.\n" +
+                 "Deixe a lista vazia numa entrada com Grupo De Falas preenchido para ela só ESCONDER a fala atual do grupo (use no arquivo certo).\n" +
+                 "Deixe as falas DESATIVADAS no Inspector.")]
+        public List<GameObject> falasEmSequencia = new List<GameObject>();
 
         [Header("Cadeado (opcional)")]
         [Tooltip("Cadeado corrompido com a animação de 'fechado'. Some assim que o jogador hackeia.")]
@@ -145,6 +185,58 @@ public class HackTerminal : MonoBehaviour
     [Tooltip("Também grava cada código enviado em um arquivo de texto (historico_NomeDaFase.txt em Application.persistentDataPath). Útil para o professor revisar.")]
     public bool salvarEmArquivo = false;
 
+    [Header("Caderno de comandos (botão ao lado da barra)")]
+    [Tooltip("Quantos comandos DIFERENTES o caderno guarda (os mais antigos saem primeiro).")]
+    [Min(1)] public int maxComandosUsados = 40;
+
+    [Header("Falas dos arquivos errados (opcional) — configura UMA vez, vale para todos os arquivos")]
+    [Tooltip("As falas do Jerry (GameObjects DESATIVADOS), em ordem: o 1º arquivo errado que o jogador abre mostra a fala 1, o 2º mostra a 2...\n" +
+             "A última se repete. Reabrir o mesmo arquivo repete a fala que ele já deu.\n" +
+             "Vale para todo arquivo que tenha o componente ArquivoAberto (selecione os 12 janelas de uma vez e use Add Component).")]
+    public List<GameObject> falasDeArquivoErrado = new List<GameObject>();
+
+    [Tooltip("Os arquivos que NÃO são errados (os backups). Escreva cada nome igual ao do GameObject da janela (ou ao campo 'Nome Do Arquivo' do ArquivoAberto).\n" +
+             "Abrir um deles esconde a fala de 'não é aqui' e mostra a 'Fala De Arquivo Certo' (se houver).")]
+    public List<string> arquivosCertos = new List<string>();
+
+    [Tooltip("OPCIONAL: fala (GameObject DESATIVADO) que aparece sempre que o jogador abre um dos Arquivos Certos.\n" +
+             "Ex.: o aviso de que o texto está corrompido e de que deve usar Inspection.\n" +
+             "Se forem vários balões em sequência, coloque todos dentro de um objeto pai e arraste o pai aqui.")]
+    public GameObject falaDeArquivoCerto;
+
+    [Tooltip("As falas só valem enquanto este contexto estiver ativo. Ex.: Documentos (mesma regra do Contexto Necessario: ',' = E, '|' = OU).\n" +
+             "Evita que arquivos de OUTRA pasta (como o cofre) também gerem a fala de 'arquivo errado'. Vazio = sempre vale.")]
+    public string contextoDasFalas = "Documentos";
+
+    [Header("Texto dos comandos (normalização)")]
+    [Tooltip("Ignora acentos ao comparar o que o jogador digitou com o que está configurado. 'Inspeção' = 'inspecao'.")]
+    public bool ignorarAcentos = true;
+
+    [Tooltip("Ignora espaços, hífens e underscores. 'Hack Folder' = 'hackfolder' = 'hack-folder', e 'LUA-472' = 'lua 472' = 'lua472'.\n" +
+             "Símbolos como # @ % * continuam valendo (os nomes corrompidos dos arquivos ainda precisam deles).\n" +
+             "Maiúsculas/minúsculas e espaços nas pontas já eram ignorados.")]
+    public bool ignorarEspacosEHifens = true;
+
+    [Tooltip("Se marcado, um comando SEM entrada na lista ainda funciona quando existe na cena um objeto ATIVO com esse nome (acha sem diferenciar maiúsculas).\n" +
+             "Desmarque para só valerem as entradas da lista: o jogador nunca alcança objetos que você não configurou.")]
+    public bool permitirObjetoSemEntrada = true;
+
+    [Tooltip("Escreve no Console qual entrada foi escolhida quando MAIS DE UMA serve para o mesmo comando (ex.: 'hack folder' em Cofre e em Documentos). Ótimo para descobrir por que abriu a pasta errada.")]
+    public bool logarEscolhas = true;
+
+    // Uma linha do menu de ajuda (vale para TODAS as cenas: o HackTerminal sobrevive à troca de fase)
+    [Serializable]
+    public class AjudaDeComando
+    {
+        [Tooltip("Como o jogador digita. Ex.: Hack Folder:1")]
+        public string comando;
+        [TextArea, Tooltip("O que ele faz, em uma frase curta.")]
+        public string descricao;
+    }
+
+    [Header("Menu de ajuda (aparece em todas as telas pelo script MenuAjuda)")]
+    public List<AjudaDeComando> ajuda = new List<AjudaDeComando>();
+
     [Header("Alvos Hackeáveis")]
     public List<AlvoHackeavel> alvos = new List<AlvoHackeavel>();
 
@@ -156,6 +248,7 @@ public class HackTerminal : MonoBehaviour
     public event Action<int, string> AoErro;       // linha + mensagem pronta para mostrar ao jogador
     public event Action<bool> AoTerminar;          // true = terminou sem erros
     public event Action<string, string> AoComandoExecutado;   // nome e valor de um comando que FUNCIONOU (ex.: "Inspection", "1")
+    public event Action AoMudarComandosUsados;                // o caderno de comandos ganhou ou perdeu uma linha
 
     class Linha
     {
@@ -175,10 +268,14 @@ public class HackTerminal : MonoBehaviour
     int _contador;
 
     // alvo ativo por comando (o valor pode ser null se o objeto foi achado por nome)
-    readonly Dictionary<string, AlvoHackeavel> _ativos = new Dictionary<string, AlvoHackeavel>(StringComparer.OrdinalIgnoreCase);
+    readonly Dictionary<string, AlvoHackeavel> _ativos = new Dictionary<string, AlvoHackeavel>(ComparadorNormalizado.Instancia);
     // "quando" cada comando foi ativado (número crescente). Serve para saber qual contexto é o MAIS RECENTE.
-    readonly Dictionary<string, int> _quando = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
+    readonly Dictionary<string, int> _quando = new Dictionary<string, int>(ComparadorNormalizado.Instancia);
     int _carimbo;
+
+    // ── Falas em sequência: por grupo, a ordem em que cada entrada foi usada pela 1ª vez e a fala que está na tela ──
+    readonly Dictionary<string, Dictionary<AlvoHackeavel, int>> _ordemDaFala = new Dictionary<string, Dictionary<AlvoHackeavel, int>>(StringComparer.OrdinalIgnoreCase);
+    readonly Dictionary<string, GameObject> _falaAtual = new Dictionary<string, GameObject>(StringComparer.OrdinalIgnoreCase);
 
     // ── Arquivos abertos NA TELA (avisados pelo componente ArquivoAberto, ou por DefinirArquivoAtual) ──
     // O último da lista é o "arquivo atual". Um contexto pode ser o nome de um arquivo aberto, além de um comando ativo.
@@ -194,6 +291,64 @@ public class HackTerminal : MonoBehaviour
 
         _arquivos.RemoveAll(a => Igual(a.nome, nome));   // reabrir = vira o mais recente
         _arquivos.Add((nome, ++_carimbo));
+
+        FalaDoArquivo(nome);
+    }
+
+    // ── Falas dos arquivos errados ──
+    readonly Dictionary<string, int> _ordemDosArquivos = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
+    GameObject _falaDeArquivo;
+    string _arquivoDaFala;
+    AlvoHackeavel _exigenciaDasFalas;
+
+    void FalaDoArquivo(string nome)
+    {
+        bool temErrado = falasDeArquivoErrado != null && falasDeArquivoErrado.Count > 0;
+        if (!temErrado && falaDeArquivoCerto == null) return;
+
+        // só vale dentro do contexto configurado (ex.: a pasta Documentos)
+        if (!string.IsNullOrWhiteSpace(contextoDasFalas))
+        {
+            if (_exigenciaDasFalas == null || _exigenciaDasFalas.contextoNecessario != contextoDasFalas)
+                _exigenciaDasFalas = new AlvoHackeavel { contextoNecessario = contextoDasFalas };
+
+            if (!ContextoOk(_exigenciaDasFalas)) return;
+        }
+
+        EsconderFalaDeArquivo();                                   // a fala anterior some
+        if (arquivosCertos != null && arquivosCertos.Exists(c => Igual(c, nome)))
+        {
+            // arquivo certo: nada de "não é aqui"; mostra a fala própria dele, se houver
+            if (falaDeArquivoCerto != null)
+            {
+                falaDeArquivoCerto.SetActive(true);
+                _falaDeArquivo = falaDeArquivoCerto;
+                _arquivoDaFala = nome;
+            }
+            return;
+        }
+
+        if (!temErrado) return;
+
+        if (!_ordemDosArquivos.TryGetValue(nome, out int posicao))
+        {
+            posicao = _ordemDosArquivos.Count;                     // 0 = primeiro arquivo errado, 1 = segundo...
+            _ordemDosArquivos[nome] = posicao;
+        }
+
+        GameObject fala = falasDeArquivoErrado[Mathf.Min(posicao, falasDeArquivoErrado.Count - 1)];
+        if (fala == null) return;
+
+        fala.SetActive(true);
+        _falaDeArquivo = fala;
+        _arquivoDaFala = nome;
+    }
+
+    void EsconderFalaDeArquivo()
+    {
+        if (_falaDeArquivo != null) _falaDeArquivo.SetActive(false);
+        _falaDeArquivo = null;
+        _arquivoDaFala = null;
     }
 
     // Chame quando o arquivo sumir. Se havia outro aberto por baixo, ele volta a ser o atual.
@@ -202,9 +357,11 @@ public class HackTerminal : MonoBehaviour
         if (string.IsNullOrWhiteSpace(nome)) return;
         nome = nome.Trim();
         _arquivos.RemoveAll(a => Igual(a.nome, nome));
+
+        if (_arquivoDaFala != null && Igual(_arquivoDaFala, nome)) EsconderFalaDeArquivo();   // fechou o arquivo da fala
     }
 
-    readonly Dictionary<string, List<Linha>> _funcoes = new Dictionary<string, List<Linha>>(StringComparer.OrdinalIgnoreCase);
+    readonly Dictionary<string, List<Linha>> _funcoes = new Dictionary<string, List<Linha>>(ComparadorNormalizado.Instancia);
     readonly Dictionary<string, int> _vars = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
 
     // histórico: uma lista por fase (nome da cena). Sobrevive enquanto o GameManager existir.
@@ -218,7 +375,12 @@ public class HackTerminal : MonoBehaviour
 
     // ───────────────────────── Ciclo de vida / conexão com a cena ─────────────────────────
 
-    void Awake() => Instancia = this;
+    void Awake()
+    {
+        Instancia = this;
+        _acentos = ignorarAcentos;
+        _separadores = ignorarEspacosEHifens;
+    }
 
     void OnEnable() => SceneManager.sceneLoaded += OnSceneLoaded;
     void OnDisable() => SceneManager.sceneLoaded -= OnSceneLoaded;
@@ -234,6 +396,17 @@ public class HackTerminal : MonoBehaviour
         Parar();             // não deixa um programa da cena anterior continuar rodando
         TrocarHistorico(cena.name);
         _funcoes.Clear();    // funções valem só dentro da fase
+        _ordemDaFala.Clear();   // a contagem das falas em sequência recomeça a cada fase
+        _falaAtual.Clear();
+        _ordemDosArquivos.Clear();
+        _achados.Clear();
+        // O que estava aberto na fase anterior NÃO vale mais: os objetos foram destruídos com a cena.
+        // Sem isso, um "Documentos" antigo continuava contando como contexto e podia vencer o "Cofre".
+        _ativos.Clear();
+        _quando.Clear();
+        _arquivos.Clear();
+        _falaDeArquivo = null;
+        _arquivoDaFala = null;
         foreach (AlvoHackeavel a in alvos) a.destrancado = false;
         ConectarNaCenaAtual();
     }
@@ -437,6 +610,76 @@ public class HackTerminal : MonoBehaviour
     public void Segurar() => _ocupado++;
     public void Soltar() => _ocupado = Mathf.Max(0, _ocupado - 1);
 
+    // ── Caderno: os comandos que FUNCIONARAM, sem repetir, na ordem em que apareceram pela 1ª vez.
+    // Erros de digitação nunca entram, então a lista só mostra exemplos certos.
+    readonly List<string> _comandosUsados = new List<string>();
+    public IReadOnlyList<string> ComandosUsados => _comandosUsados;
+
+    // Avisa os ouvintes e anota o comando no caderno
+    void NotificarComando(string nome, string valor, AlvoHackeavel alvo)
+    {
+        // Avisa com a grafia da lista (ex.: "Inspection"), mesmo que o jogador tenha digitado "inspection " ou "Inspec-tion"
+        string nomeDaLista = alvo != null && !string.IsNullOrWhiteSpace(alvo.comando) ? alvo.comando.Trim() : nome;
+        AoComandoExecutado?.Invoke(nomeDaLista, valor);
+
+        string comando = TextoParaCaderno(nome, valor, alvo);
+        if (comando == null) return;                       // esta entrada está como "Nao Guardar"
+
+        if (_comandosUsados.Exists(c => string.Equals(c, comando, StringComparison.OrdinalIgnoreCase))) return;
+
+        _comandosUsados.Add(comando);
+        if (_comandosUsados.Count > maxComandosUsados) _comandosUsados.RemoveAt(0);
+        AoMudarComandosUsados?.Invoke();
+    }
+
+    // Decide o que vai para o caderno. Devolve null quando o comando não deve aparecer lá.
+    string TextoParaCaderno(string nome, string valor, AlvoHackeavel alvo)
+    {
+        if (alvo != null && alvo.caderno == AlvoHackeavel.ModoCaderno.NaoGuardar) return null;
+
+        if (alvo != null && alvo.caderno == AlvoHackeavel.ModoCaderno.UsarExemplo
+            && !string.IsNullOrWhiteSpace(alvo.exemploNoCaderno))
+        {
+            string exemplo = alvo.exemploNoCaderno.Trim();
+            if (valor != "0") return exemplo;
+
+            // ":0" (sair/fechar): troca só o final do exemplo por :0
+            int pos = exemplo.LastIndexOf(':');
+            return (pos < 0 ? exemplo : exemplo.Substring(0, pos)) + ":0";
+        }
+
+        // Normal: o comando como o jogador usou, mas com a grafia da lista (não a que foi digitada)
+        AlvoHackeavel conhecido = alvo ?? alvos.Find(a => Igual(a.comando, nome));
+        string nomeCerto = conhecido != null && !string.IsNullOrWhiteSpace(conhecido.comando) ? conhecido.comando.Trim() : nome;
+        return $"{nomeCerto}:{valor}";
+    }
+
+    public void LimparComandosUsados()
+    {
+        _comandosUsados.Clear();
+        AoMudarComandosUsados?.Invoke();
+    }
+
+    // Apaga UM comando do caderno. Se o jogador usar o comando de novo, ele volta para a lista.
+    public void RemoverComandoUsado(string comando)
+    {
+        int removidos = _comandosUsados.RemoveAll(c => string.Equals(c, comando, StringComparison.OrdinalIgnoreCase));
+        if (removidos > 0) AoMudarComandosUsados?.Invoke();
+    }
+
+    // Coloca um comando na caixa de texto (NÃO executa). Se a caixa já tem texto, o comando entra numa linha nova.
+    public void UsarNaCaixa(string comando)
+    {
+        if (commandInput == null || string.IsNullOrEmpty(comando)) return;
+
+        commandInput.text = string.IsNullOrWhiteSpace(commandInput.text)
+            ? comando
+            : commandInput.text.TrimEnd() + "\n" + comando;
+
+        commandInput.ActivateInputField();
+        StartCoroutine(CursorNoFim());
+    }
+
     public void Parar()
     {
         StopAllCoroutines();
@@ -503,7 +746,7 @@ public class HackTerminal : MonoBehaviour
             bool avisou = false;
             if (ativar && alvo != null && (alvo.esperarVarredura || alvo.atrasoParaMostrar > 0f))
             {
-                AoComandoExecutado?.Invoke(p.nome, p.valor);
+                NotificarComando(p.nome, p.valor, alvo);
                 avisou = true;
 
                 if (alvo.esperarVarredura)
@@ -544,7 +787,7 @@ public class HackTerminal : MonoBehaviour
             }
 
             // Avisa quem estiver ouvindo (ex.: TextoInspecionavel) que este comando acabou de funcionar
-            if (!avisou) AoComandoExecutado?.Invoke(p.nome, p.valor);
+            if (!avisou) NotificarComando(p.nome, p.valor, alvo);
 
             if (espera != null && i < passos.Count - 1) yield return espera;
         }
@@ -596,7 +839,7 @@ public class HackTerminal : MonoBehaviour
                 return Falhar(num, $"Passos demais (limite {maxPassos}). Tem um laço ou função sem fim?");
 
             string[] pal = l.texto.TrimEnd(':').Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-            string kw = pal.Length > 0 ? pal[0].ToLowerInvariant() : "";
+            string kw = pal.Length > 0 ? Normalizar(pal[0]) : "";
             bool ehBloco = kw == "para" || kw == "repetir" || kw == "definir";
 
             if (ehBloco)
@@ -631,7 +874,7 @@ public class HackTerminal : MonoBehaviour
 
             if (pos < 0) return Falhar(num, "Faltou o ':' entre o nome e o valor. Exemplo: Hack Folder:1");
 
-            string valor = Substituir(l.texto.Substring(pos + 1).Trim().Trim('"'));
+            string valor = Substituir(l.texto.Substring(pos + 1).Trim().Trim('"', '“', '”'));
             if (nome.Length == 0 || valor.Length == 0) return Falhar(num, "Comando incompleto. Use Nome:valor");
 
             saida.Add(new Passo { linha = num, nome = nome, valor = valor });
@@ -644,7 +887,7 @@ public class HackTerminal : MonoBehaviour
     {
         var p = new List<string>();
         foreach (string w in pal)
-            if (!w.Equals("vezes", StringComparison.OrdinalIgnoreCase)) p.Add(w);
+            if (!Igual(w, "vezes")) p.Add(w);
 
         string variavel = null;
         int ini = 1, fim = 0;
@@ -653,8 +896,8 @@ public class HackTerminal : MonoBehaviour
         {
             // laço simples: roda 'fim' vezes
         }
-        else if (p.Count == 6 && p[2].Equals("de", StringComparison.OrdinalIgnoreCase)
-                 && (p[4].Equals("ate", StringComparison.OrdinalIgnoreCase) || p[4].Equals("até", StringComparison.OrdinalIgnoreCase))
+        else if (p.Count == 6 && Igual(p[2], "de")
+                 && Igual(p[4], "ate")        // "ate" e "até" valem (a comparação ignora acentos)
                  && Numero(p[3], out ini) && Numero(p[5], out fim))
         {
             variavel = p[1];
@@ -756,7 +999,7 @@ public class HackTerminal : MonoBehaviour
         }
         else
         {
-            GameObject achado = GameObject.Find(nome);
+            GameObject achado = permitirObjetoSemEntrada ? AcharObjeto(nome) : null;
             if (achado != null)
             {
                 achado.SetActive(ativar);
@@ -784,10 +1027,102 @@ public class HackTerminal : MonoBehaviour
             _quando.Remove(nome);
         }
 
+        MostrarFalaEmSequencia(alvo, ativar);
+
         if (ativar && cameraFocus != null && (alvo == null || alvo.moverCamera))
             cameraFocus.Focar(primeiro);
 
         return true;
+    }
+
+    // Objetos que o jogador já alcançou pelo nome nesta fase (sem entrada na lista). Serve para poder REABRIR
+    // o que ele escondeu com :0, sem dar acesso a objetos desativados que ele nunca viu (painéis de fala, etc.).
+    readonly Dictionary<string, GameObject> _achados = new Dictionary<string, GameObject>(ComparadorNormalizado.Instancia);
+
+    // Acha um objeto da cena pelo nome digitado, ignorando maiúsculas, acentos e espaços/hífens.
+    // Só enxerga objetos ATIVOS (como o GameObject.Find) ou os que o jogador já havia aberto antes.
+    GameObject AcharObjeto(string nome)
+    {
+        if (_achados.TryGetValue(nome, out GameObject guardado) && guardado != null) return guardado;
+
+        // Percorre a hierarquia sempre na MESMA ordem (de cima para baixo, como no painel Hierarchy).
+        // Assim digitar 'documentos' ou 'Documentos' dá o mesmo objeto, mesmo havendo nomes repetidos.
+        var candidatos = new List<GameObject>();
+        for (int i = 0; i < SceneManager.sceneCount; i++)
+        {
+            Scene cena = SceneManager.GetSceneAt(i);
+            if (!cena.isLoaded) continue;
+
+            foreach (GameObject raiz in cena.GetRootGameObjects())
+                ColetarPorNome(raiz.transform, nome, candidatos);
+        }
+
+        if (candidatos.Count == 0) return null;
+
+        string digitado = nome.Trim();
+        GameObject achado = candidatos.Find(c => c.name == digitado) ?? candidatos[0];   // a grafia exata ganha
+
+        if (candidatos.Count > 1)
+        {
+            var caminhos = new List<string>();
+            foreach (GameObject c in candidatos) caminhos.Add(CaminhoNaHierarquia(c.transform));
+
+            Debug.LogWarning($"HackTerminal: há {candidatos.Count} objetos ATIVOS chamados '{nome}': [{string.Join(" | ", caminhos)}]. " +
+                             $"Usei '{CaminhoNaHierarquia(achado.transform)}'. Crie uma entrada na lista para escolher exatamente qual abrir.");
+        }
+
+        _achados[nome] = achado;
+        return achado;
+    }
+
+    static void ColetarPorNome(Transform t, string nome, List<GameObject> saida)
+    {
+        if (!t.gameObject.activeInHierarchy) return;      // desativado: ele e tudo dentro dele ficam de fora
+        if (Igual(t.name, nome)) saida.Add(t.gameObject);
+
+        for (int i = 0; i < t.childCount; i++) ColetarPorNome(t.GetChild(i), nome, saida);
+    }
+
+    static string CaminhoNaHierarquia(Transform t)
+    {
+        string caminho = t.name;
+        while (t.parent != null)
+        {
+            t = t.parent;
+            caminho = t.name + "/" + caminho;
+        }
+        return caminho;
+    }
+
+    // Escolhe a fala pela ordem em que os arquivos DIFERENTES do grupo foram abertos.
+    // Sem lista de falas: só esconde a fala que estava na tela (serve para o arquivo certo).
+    void MostrarFalaEmSequencia(AlvoHackeavel alvo, bool ativar)
+    {
+        if (alvo == null || string.IsNullOrWhiteSpace(alvo.grupoDeFalas)) return;
+        string grupo = alvo.grupoDeFalas.Trim();
+
+        // esconde a fala que estava aparecendo deste grupo
+        if (_falaAtual.TryGetValue(grupo, out GameObject atual) && atual != null) atual.SetActive(false);
+        _falaAtual.Remove(grupo);
+
+        if (!ativar || alvo.falasEmSequencia == null || alvo.falasEmSequencia.Count == 0) return;
+
+        if (!_ordemDaFala.TryGetValue(grupo, out Dictionary<AlvoHackeavel, int> ordem))
+        {
+            ordem = new Dictionary<AlvoHackeavel, int>();
+            _ordemDaFala[grupo] = ordem;
+        }
+        if (!ordem.TryGetValue(alvo, out int posicao))
+        {
+            posicao = ordem.Count;        // 0 = primeiro arquivo diferente aberto, 1 = segundo...
+            ordem[alvo] = posicao;
+        }
+
+        GameObject fala = alvo.falasEmSequencia[Mathf.Min(posicao, alvo.falasEmSequencia.Count - 1)];
+        if (fala == null) return;
+
+        fala.SetActive(true);
+        _falaAtual[grupo] = fala;
     }
 
     // ───────────────────────── Utilidades ─────────────────────────
@@ -799,8 +1134,52 @@ public class HackTerminal : MonoBehaviour
         return false;
     }
 
+    // ── Normalização: o que o jogador digita é comparado com o configurado sem ligar para maiúsculas,
+    // acentos (opcional) e espaços/hífens/underscores (opcional). Símbolos como # @ % * continuam valendo. ──
+    static bool _acentos = true, _separadores = true;
+
+    static string Normalizar(string s)
+    {
+        if (string.IsNullOrEmpty(s)) return "";
+
+        s = s.Trim();
+
+        if (_acentos)
+        {
+            string d = s.Normalize(System.Text.NormalizationForm.FormD);
+            var sem = new System.Text.StringBuilder(d.Length);
+            foreach (char c in d)
+                if (System.Globalization.CharUnicodeInfo.GetUnicodeCategory(c) != System.Globalization.UnicodeCategory.NonSpacingMark)
+                    sem.Append(c);
+            s = sem.ToString().Normalize(System.Text.NormalizationForm.FormC);
+        }
+
+        var r = new System.Text.StringBuilder(s.Length);
+        bool espaco = false;
+        foreach (char c in s.ToLowerInvariant())
+        {
+            if (char.IsWhiteSpace(c) || (_separadores && (c == '-' || c == '_')))
+            {
+                if (!_separadores) espaco = true;       // sem ignorar separadores: vários espaços viram um só
+                continue;
+            }
+
+            if (espaco && r.Length > 0) r.Append(' ');
+            espaco = false;
+            r.Append(c);
+        }
+        return r.ToString();
+    }
+
+    sealed class ComparadorNormalizado : IEqualityComparer<string>
+    {
+        public static readonly ComparadorNormalizado Instancia = new ComparadorNormalizado();
+        public bool Equals(string a, string b) => Normalizar(a) == Normalizar(b);
+        public int GetHashCode(string s) => Normalizar(s).GetHashCode();
+    }
+
     static bool Igual(string a, string b) =>
-        !string.IsNullOrEmpty(a) && a.Trim().Equals(b, StringComparison.OrdinalIgnoreCase);
+        !string.IsNullOrEmpty(a) && Normalizar(a) == Normalizar(b);
 
     // Um requisito de contexto vale se for o ARQUIVO ATUAL (o que está na frente, na tela)
     // ou um COMANDO que está ativo. 'quando' diz o quão recente isso aconteceu (maior = mais novo).
@@ -830,6 +1209,8 @@ public class HackTerminal : MonoBehaviour
     // OK se não há exigência, ou se PELO MENOS UM grupo ('|') tem todos os seus requisitos ativos (',').
     bool ContextoOk(AlvoHackeavel a)
     {
+        if (a.ProibidoAtivo(r => RequisitoAtivo(r, out _))) return false;
+
         string[][] grupos = a.GruposDeContexto;
         if (grupos.Length == 0) return true;
 
@@ -867,17 +1248,29 @@ public class HackTerminal : MonoBehaviour
     {
         AlvoHackeavel melhor = null;
         int melhorNota = -1;
+        var relato = logarEscolhas ? new System.Text.StringBuilder() : null;
+        int validas = 0;
 
-        foreach (AlvoHackeavel a in candidatos)
+        for (int i = 0; i < candidatos.Count; i++)
         {
+            AlvoHackeavel a = candidatos[i];
             if (!ValorOk(a, valor)) continue;
 
             int nota = NotaDeContexto(a);
+            if (nota >= 0) validas++;
+            relato?.AppendLine($"  Entrada {i + 1}: contexto '{a.contextoNecessario}' -> nota {nota} (-1 = contexto não ativo; maior = aberto mais recentemente)");
+
             if (nota > melhorNota)
             {
                 melhor = a;
                 melhorNota = nota;
             }
+        }
+
+        if (relato != null && candidatos.Count > 1)
+        {
+            Debug.Log($"HackTerminal: '{candidatos[0].comando}:{valor}' tem {candidatos.Count} entradas. Ganhou a de nota {melhorNota}.\n" +
+                      $"Comandos ativos: [{string.Join(" | ", _ativos.Keys)}]   Arquivo atual: '{ArquivoAtual ?? "(nenhum)"}'\n{relato}");
         }
         return melhor;
     }
@@ -885,6 +1278,8 @@ public class HackTerminal : MonoBehaviour
     // -1 = contexto NÃO satisfeito | 0 = sem exigência | >0 = quão recente é o requisito mais novo que foi satisfeito
     int NotaDeContexto(AlvoHackeavel a)
     {
+        if (a.ProibidoAtivo(r => RequisitoAtivo(r, out _))) return -1;
+
         string[][] grupos = a.GruposDeContexto;
         if (grupos.Length == 0) return 0;
 
@@ -914,7 +1309,7 @@ public class HackTerminal : MonoBehaviour
         if (string.IsNullOrEmpty(a.valorEsperado)) return true;
 
         foreach (string v in a.valorEsperado.Split('|'))
-            if (valor.Equals(v.Trim(), StringComparison.OrdinalIgnoreCase)) return true;
+            if (Normalizar(valor) == Normalizar(v)) return true;
 
         return false;
     }
