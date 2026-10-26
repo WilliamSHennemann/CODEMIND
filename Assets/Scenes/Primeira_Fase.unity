@@ -3683,6 +3683,8 @@ MonoBehaviour:
   sumirSozinhoNaUltimaLinha: 1
   tempoParaSumirSozinho: 6
   avancarComClique: 1
+  avancarSomenteClicandoNoRadio: 1
+  depurarClique: 1
   teclaAvancar: 32
   Radio: {fileID: 0}
   exigirRadioLigadoParaClicar: 1
@@ -4830,7 +4832,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 0.54901963}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.627451}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -5936,6 +5938,8 @@ MonoBehaviour:
   sumirSozinhoNaUltimaLinha: 0
   tempoParaSumirSozinho: 3
   avancarComClique: 1
+  avancarSomenteClicandoNoRadio: 1
+  depurarClique: 1
   teclaAvancar: 32
   Radio: {fileID: 1783240289}
   exigirRadioLigadoParaClicar: 1
@@ -8484,6 +8488,8 @@ MonoBehaviour:
   sumirSozinhoNaUltimaLinha: 0
   tempoParaSumirSozinho: 3
   avancarComClique: 1
+  avancarSomenteClicandoNoRadio: 1
+  depurarClique: 1
   teclaAvancar: 32
   Radio: {fileID: 1783240289}
   exigirRadioLigadoParaClicar: 1
@@ -9287,6 +9293,8 @@ MonoBehaviour:
   sumirSozinhoNaUltimaLinha: 0
   tempoParaSumirSozinho: 3
   avancarComClique: 1
+  avancarSomenteClicandoNoRadio: 1
+  depurarClique: 1
   teclaAvancar: 32
   Radio: {fileID: 1783240289}
   exigirRadioLigadoParaClicar: 1
@@ -15042,6 +15050,8 @@ MonoBehaviour:
   sumirSozinhoNaUltimaLinha: 1
   tempoParaSumirSozinho: 3
   avancarComClique: 1
+  avancarSomenteClicandoNoRadio: 1
+  depurarClique: 1
   teclaAvancar: 32
   Radio: {fileID: 1783240289}
   exigirRadioLigadoParaClicar: 1
@@ -15756,7 +15766,7 @@ MonoBehaviour:
   frameDePausa: 43
   esperaMaxPeloTexto: 3
   esperarTextoParaSempre: 1
-  mostrarLogs: 1
+  mostrarLogs: 0
   desligarAnimator: 1
   tocarAoAtivar: 1
   atrasoInicial: 0
@@ -18478,7 +18488,7 @@ MonoBehaviour:
   ignorarAcentos: 1
   ignorarEspacosEHifens: 1
   permitirObjetoSemEntrada: 1
-  logarEscolhas: 1
+  logarEscolhas: 0
   ajuda:
   - comando: Movimento
     descricao: 'Vai a pasta escolhida. Ex: "Nome-pasta:1"'
@@ -19820,13 +19830,17 @@ MonoBehaviour:
     sobrou.'
   - 'Jerry: Pelo que eu me lembre, pelo menos. Faz tempo que voce nao mexe nisso,
     hein?'
-  - 'Jerry: Viu o botao ao lado da barra? Ele guarda os comandos que voce ja usou.
-    Se esquecer algum, abre ele e clica no comando.'
+  - 'Jerry: Viu o botao ao lado direito da barra? Ele guarda os comandos que voce
+    ja usou. Se esquecer algum, abre ele e clica no comando.'
+  - "Jerry: E o botao ao lado esquerdo da barra? Ele guarda os comandos e explica\xE7\xF5es.
+    Se esquecer algum, abre ele."
   atrasoPorCaractere: 0.03
   atrasoParaSumir: 3
   sumirSozinhoNaUltimaLinha: 0
   tempoParaSumirSozinho: 3
   avancarComClique: 1
+  avancarSomenteClicandoNoRadio: 1
+  depurarClique: 0
   teclaAvancar: 32
   Radio: {fileID: 1783240289}
   exigirRadioLigadoParaClicar: 1
@@ -20270,6 +20284,8 @@ MonoBehaviour:
   sumirSozinhoNaUltimaLinha: 0
   tempoParaSumirSozinho: 3
   avancarComClique: 1
+  avancarSomenteClicandoNoRadio: 1
+  depurarClique: 1
   teclaAvancar: 32
   Radio: {fileID: 1783240289}
   exigirRadioLigadoParaClicar: 1
@@ -21314,6 +21330,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1783240290}
   - component: {fileID: 1783240289}
+  - component: {fileID: 1783240291}
   m_Layer: 5
   m_Name: Radio
   m_TagString: Untagged
@@ -21368,6 +21385,52 @@ RectTransform:
   m_AnchoredPosition: {x: -59, y: -33}
   m_SizeDelta: {x: 100, y: 96}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!61 &1783240291
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1783240288}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
 --- !u!1 &1792786207
 GameObject:
   m_ObjectHideFlags: 0
@@ -21728,7 +21791,7 @@ MonoBehaviour:
   frameDePausa: 19
   esperaMaxPeloTexto: 3
   esperarTextoParaSempre: 1
-  mostrarLogs: 1
+  mostrarLogs: 0
   desligarAnimator: 1
   tocarAoAtivar: 1
   atrasoInicial: 1
@@ -23128,6 +23191,8 @@ MonoBehaviour:
   sumirSozinhoNaUltimaLinha: 0
   tempoParaSumirSozinho: 3
   avancarComClique: 1
+  avancarSomenteClicandoNoRadio: 1
+  depurarClique: 1
   teclaAvancar: 32
   Radio: {fileID: 1783240289}
   exigirRadioLigadoParaClicar: 1
@@ -23929,7 +23994,7 @@ MonoBehaviour:
   frameDePausa: 19
   esperaMaxPeloTexto: 3
   esperarTextoParaSempre: 1
-  mostrarLogs: 1
+  mostrarLogs: 0
   desligarAnimator: 1
   tocarAoAtivar: 1
   atrasoInicial: 6
@@ -24490,6 +24555,8 @@ MonoBehaviour:
   sumirSozinhoNaUltimaLinha: 1
   tempoParaSumirSozinho: 3
   avancarComClique: 1
+  avancarSomenteClicandoNoRadio: 1
+  depurarClique: 1
   teclaAvancar: 32
   Radio: {fileID: 0}
   exigirRadioLigadoParaClicar: 1
@@ -25108,6 +25175,8 @@ GameObject:
   - component: {fileID: 2086493196}
   - component: {fileID: 2086493194}
   - component: {fileID: 2086493195}
+  - component: {fileID: 2086493198}
+  - component: {fileID: 2086493197}
   m_Layer: 0
   m_Name: Radio_0
   m_TagString: Untagged
@@ -25212,6 +25281,69 @@ Transform:
   - {fileID: 1613154762}
   m_Father: {fileID: 1783240290}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &2086493197
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2086493193}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 0.75, y: 1.16}
+    newSize: {x: 0.75, y: 1.16}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 0.75, y: 1.16}
+  m_EdgeRadius: 0
+--- !u!320 &2086493198
+PlayableDirector:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2086493193}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_PlayableAsset: {fileID: 0}
+  m_InitialState: 1
+  m_WrapMode: 2
+  m_DirectorUpdateMode: 1
+  m_InitialTime: 0
+  m_SceneBindings: []
+  m_ExposedReferences:
+    m_References: []
 --- !u!1 &2106703213
 GameObject:
   m_ObjectHideFlags: 0
