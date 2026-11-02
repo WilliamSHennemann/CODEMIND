@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Events;
 
 // Animação independente (não precisa do DialogueBox).
 //
@@ -54,6 +55,16 @@ public class AnimacaoComPausa : MonoBehaviour
     [Tooltip("Some (desativa este objeto) depois do último frame.")]
     [SerializeField] private bool esconderAoTerminar = true;
     [SerializeField, Min(0f)] private float atrasoParaEsconder = 0f;
+
+    [Header("Ao terminar")]
+    [Tooltip("Chamado assim que o último frame termina (antes de esconder o objeto). Use para mostrar um botão, tocar som, etc.")]
+    [SerializeField] private UnityEvent aoTerminar;
+
+    [Tooltip("Se marcado, carrega a cena abaixo assim que a animação termina.")]
+    [SerializeField] private bool irParaProximaCenaAoTerminar = false;
+
+    [Tooltip("Nome exato da cena (precisa estar em File > Build Settings).")]
+    [SerializeField] private string proximaCena = "";
 
     Coroutine _rotina;
     bool _liberadoManual;
@@ -179,8 +190,18 @@ public class AnimacaoComPausa : MonoBehaviour
         }
 
         _rotina = null;
-        ChegouNaPausa = true;             // sem pausa configurada: libera quem estiver esperando no fim
+        ChegouNaPausa = true;   // libera quem estiver esperando no fim
 
+        // >>> NOVO: avisa que acabou
+        aoTerminar?.Invoke();
+
+        // >>> NOVO: carrega a próxima fase (se configurado)
+        if (irParaProximaCenaAoTerminar && !string.IsNullOrEmpty(proximaCena))
+        {
+            UnityEngine.SceneManagement.SceneManager.LoadScene(proximaCena);
+        }
+
+        // (o resto continua igual)
         if (esconderAoTerminar)
         {
             if (atrasoParaEsconder > 0f) yield return new WaitForSeconds(atrasoParaEsconder);
