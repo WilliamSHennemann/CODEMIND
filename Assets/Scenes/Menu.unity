@@ -728,7 +728,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1158000c0399e9b44a6013f042a0682f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MenuManager
-  nomeDaCenaParaCarregar: Primeira_Fase
+  nomeDaCenaParaCarregar: Tutorial
   isExitButton: 0
 --- !u!212 &941158734
 SpriteRenderer:
