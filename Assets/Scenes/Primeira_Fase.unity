@@ -3829,6 +3829,7 @@ MonoBehaviour:
   radioAoTerminarDialogo: 0
   animacaoParaEsperar: {fileID: 1959889502}
   tempoMaxEsperaAnimacao: 10
+  objetoAtivarAoTerminar: {fileID: 0}
 --- !u!212 &339120846
 SpriteRenderer:
   serializedVersion: 2
@@ -6084,6 +6085,7 @@ MonoBehaviour:
   radioAoTerminarDialogo: 2
   animacaoParaEsperar: {fileID: 0}
   tempoMaxEsperaAnimacao: 10
+  objetoAtivarAoTerminar: {fileID: 0}
 --- !u!1 &452650566
 GameObject:
   m_ObjectHideFlags: 0
@@ -8635,6 +8637,7 @@ MonoBehaviour:
   radioAoTerminarDialogo: 0
   animacaoParaEsperar: {fileID: 0}
   tempoMaxEsperaAnimacao: 10
+  objetoAtivarAoTerminar: {fileID: 0}
 --- !u!1 &703092332
 GameObject:
   m_ObjectHideFlags: 0
@@ -9440,6 +9443,7 @@ MonoBehaviour:
   radioAoTerminarDialogo: 2
   animacaoParaEsperar: {fileID: 0}
   tempoMaxEsperaAnimacao: 10
+  objetoAtivarAoTerminar: {fileID: 873309225}
 --- !u!1 &729543502
 GameObject:
   m_ObjectHideFlags: 0
@@ -15289,6 +15293,7 @@ MonoBehaviour:
   radioAoTerminarDialogo: 2
   animacaoParaEsperar: {fileID: 0}
   tempoMaxEsperaAnimacao: 10
+  objetoAtivarAoTerminar: {fileID: 0}
 --- !u!1 &1154485924
 GameObject:
   m_ObjectHideFlags: 0
@@ -18546,6 +18551,7 @@ MonoBehaviour:
   radioAoTerminarDialogo: 0
   animacaoParaEsperar: {fileID: 1591301794}
   tempoMaxEsperaAnimacao: 10
+  objetoAtivarAoTerminar: {fileID: 0}
 --- !u!212 &1497792265
 SpriteRenderer:
   serializedVersion: 2
@@ -19317,7 +19323,6 @@ MonoBehaviour:
     objetos:
     - {fileID: 718388353}
     - {fileID: 58974541}
-    - {fileID: 873309225}
     contextoNecessario: Hack Folder
     contextoProibido: 
     valorEsperado: LUA-472 | lua-472
@@ -19683,7 +19688,7 @@ MonoBehaviour:
   mostrarLogs: 0
   desligarAnimator: 1
   tocarAoAtivar: 1
-  atrasoInicial: 13
+  atrasoInicial: 0
   esconderAoTerminar: 1
   atrasoParaEsconder: 0
   aoTerminar:
@@ -20506,18 +20511,20 @@ MonoBehaviour:
   caixaDeTexto: {fileID: 422352686}
   textoExibido: {fileID: 945383841}
   linhas:
-  - 'Jerry: Vixi... o que houve aqui? Esta tudo trancado!'
-  - 'Jerry: Nao foi um bug. Alguem mexeu no seu PC.'
-  - 'Jerry: Ve aquela pasta com o cadeado corrompido, piscando?'
-  - 'Jerry: As outras estao trancadas, mas essa e diferente. Chama Documentos.'
-  - 'Jerry: Tenta hackear ela. Primeiro escolhe a pasta: "Documentos:1"'
-  - 'Jerry: Agora invade ela: "Hack Folder:1". La ficavam suas senhas uteis.'
+  - 'Jerry: Vixi... o que aconteceu aqui? Esta tudo trancado!'
+  - 'Jerry: Isso nao foi um bug. Alguem mexeu no seu PC.'
+  - 'Jerry: Voce esta vendo aquela pasta com o cadeado corrompido, piscando?'
+  - 'Jerry: As outras estao todas trancadas, mas essa esta diferente. Ela se chama
+    Documentos.'
+  - 'Jerry: Tente hackear ela utilizando o comando: "Documentos:1"'
+  - 'Jerry: Agora invada ela utilizando o comando: "Hack Folder:1". Se nao me engano,
+    la ficavam as suas senhas uteis.'
   - 'Jerry: Talvez uma dessas senhas abra seu cofre. Lembra dele?'
-  - 'Jerry: Ele guarda o backup inteiro do PC. Se abrir, da pra ver o que sobrou.'
+  - 'Jerry: O cofre guarda o backup inteiro do PC. Se abrir, da pra ver o que sobrou.'
   - 'Jerry: Pelo menos eu acho. Faz tempo que voce nao mexe nisso.'
-  - 'Jerry: Viu o botao a direita da barra? Ele guarda os comandos que voce ja usou.
-    Esqueceu algum? Abre ele.'
-  - '"Jerry: E o botao a esquerda? Ele mostra a lista de comandos e explicacoes."'
+  - "Jerry: Viu o botao a direita da barra? Ele guarda os comandos que voce ja usou.
+    Caso Esque\xE7a algum, clique para reutilizar."
+  - '"Jerry: E o botao da esquerda, mostra a lista de comandos e explicacoes."'
   atrasoPorCaractere: 0.03
   atrasoParaSumir: 3
   sumirSozinhoNaUltimaLinha: 0
@@ -20532,6 +20539,7 @@ MonoBehaviour:
   radioAoTerminarDialogo: 2
   animacaoParaEsperar: {fileID: 0}
   tempoMaxEsperaAnimacao: 10
+  objetoAtivarAoTerminar: {fileID: 0}
 --- !u!212 &1613154765
 SpriteRenderer:
   serializedVersion: 2
@@ -20977,6 +20985,7 @@ MonoBehaviour:
   radioAoTerminarDialogo: 2
   animacaoParaEsperar: {fileID: 0}
   tempoMaxEsperaAnimacao: 10
+  objetoAtivarAoTerminar: {fileID: 0}
 --- !u!4 &1692461988
 Transform:
   m_ObjectHideFlags: 0
@@ -22478,7 +22487,7 @@ MonoBehaviour:
   mostrarLogs: 0
   desligarAnimator: 1
   tocarAoAtivar: 1
-  atrasoInicial: 1
+  atrasoInicial: 0
   esconderAoTerminar: 1
   atrasoParaEsconder: 0
   aoTerminar:
@@ -23872,7 +23881,7 @@ MonoBehaviour:
   linhas:
   - 'Jerry: Este codigo era a sua senha quando montou o cofre.'
   - 'Jerry: O CODEMIND nao conseguiu estragar. Anote o codigo em destaque.'
-  - 'Jerry: Primeiro saia da pasta com "Hack Folder:0".'
+  - 'Jerry: Primeiro saia da pasta com "Hack document:0".'
   - 'Jerry: Selecione o cofre com "Cofre:1" e invada com "Hack Folder:1".'
   - 'Jerry: O cofre vai pedir a senha. Digite "Senha:" e o codigo que anotou.'
   atrasoPorCaractere: 0.03
@@ -23889,6 +23898,7 @@ MonoBehaviour:
   radioAoTerminarDialogo: 2
   animacaoParaEsperar: {fileID: 0}
   tempoMaxEsperaAnimacao: 10
+  objetoAtivarAoTerminar: {fileID: 0}
 --- !u!4 &1913003490
 Transform:
   m_ObjectHideFlags: 0
@@ -25258,6 +25268,7 @@ MonoBehaviour:
   radioAoTerminarDialogo: 0
   animacaoParaEsperar: {fileID: 1806441919}
   tempoMaxEsperaAnimacao: 10
+  objetoAtivarAoTerminar: {fileID: 0}
 --- !u!212 &2040679343
 SpriteRenderer:
   serializedVersion: 2

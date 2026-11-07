@@ -145,7 +145,7 @@ Transform:
   m_GameObject: {fileID: 176841599}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -7.827, y: -4.6486, z: 0}
+  m_LocalPosition: {x: -8.11, y: -4.65, z: 0}
   m_LocalScale: {x: 2.3519096, y: 10.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -571,7 +571,7 @@ Transform:
   m_GameObject: {fileID: 818185750}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 11.442, y: -4.2842, z: 0}
+  m_LocalPosition: {x: 11.75, y: -4.34, z: 0}
   m_LocalScale: {x: 2.7701244, y: 11.511971, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -728,7 +728,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1158000c0399e9b44a6013f042a0682f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MenuManager
-  nomeDaCenaParaCarregar: Tutorial
+  nomeDaCenaParaCarregar: Primeira_Fase
   isExitButton: 0
 --- !u!212 &941158734
 SpriteRenderer:

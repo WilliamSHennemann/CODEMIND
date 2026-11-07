@@ -73,6 +73,7 @@ public class AnimacaoComPausa : MonoBehaviour
 
     /// <summary>True quando a animação chegou ao frame de pausa (ou terminou, se não tem pausa). O DialogueBox usa isso para começar.</summary>
     public bool ChegouNaPausa { get; private set; }
+    public bool Terminou { get; private set; }
 
 #if UNITY_EDITOR
     // Só no Editor: lê os sprites e grava no array 'frames' (que fica salvo, então funciona no build).
@@ -159,6 +160,7 @@ public class AnimacaoComPausa : MonoBehaviour
         if (_rotina != null) StopCoroutine(_rotina);
         _liberadoManual = false;
         ChegouNaPausa = false;
+        Terminou = false;
         _rotina = StartCoroutine(Rodar());
     }
 
@@ -191,6 +193,7 @@ public class AnimacaoComPausa : MonoBehaviour
 
         _rotina = null;
         ChegouNaPausa = true;   // libera quem estiver esperando no fim
+        Terminou = true;
 
         // >>> NOVO: avisa que acabou
         aoTerminar?.Invoke();
