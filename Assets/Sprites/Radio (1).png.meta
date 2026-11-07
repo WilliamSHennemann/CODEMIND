@@ -1,0 +1,546 @@
+fileFormatVersion: 2
+guid: 4b9db19bfdf895c4aaa6a0f1ffe5f972
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -7605514749533469886
+    second: Radio (1)_0
+  - first:
+      213: -1588778486601254387
+    second: Radio (1)_1
+  - first:
+      213: 5505219683075736491
+    second: Radio (1)_2
+  - first:
+      213: -4176133161662549574
+    second: Radio (1)_3
+  - first:
+      213: 7782221824506708998
+    second: Radio (1)_4
+  - first:
+      213: 1961881394171212946
+    second: Radio (1)_5
+  - first:
+      213: 5672028605749819488
+    second: Radio (1)_6
+  - first:
+      213: -4345203909698617789
+    second: Radio (1)_7
+  - first:
+      213: 7393589380102167529
+    second: Radio (1)_8
+  - first:
+      213: -4710349541715013983
+    second: Radio (1)_9
+  - first:
+      213: -940122734452280977
+    second: Radio (1)_10
+  - first:
+      213: -4392524352402872634
+    second: Radio (1)_11
+  - first:
+      213: 5630311113597405954
+    second: Radio (1)_12
+  - first:
+      213: 5036658320173315333
+    second: Radio (1)_13
+  - first:
+      213: -5409168584103446180
+    second: Radio (1)_14
+  - first:
+      213: -1011201387649426746
+    second: Radio (1)_15
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Radio (1)_0
+      rect:
+        serializedVersion: 2
+        x: 52
+        y: 50
+        width: 75
+        height: 124
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 243401c81a8c37690800000000000000
+      internalID: -7605514749533469886
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Radio (1)_1
+      rect:
+        serializedVersion: 2
+        x: 253
+        y: 50
+        width: 75
+        height: 124
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d0a7957526683f9e0800000000000000
+      internalID: -1588778486601254387
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Radio (1)_2
+      rect:
+        serializedVersion: 2
+        x: 454
+        y: 50
+        width: 75
+        height: 124
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ba3c7344228766c40800000000000000
+      internalID: 5505219683075736491
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Radio (1)_3
+      rect:
+        serializedVersion: 2
+        x: 655
+        y: 50
+        width: 75
+        height: 124
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ab1ff5cf3056b06c0800000000000000
+      internalID: -4176133161662549574
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Radio (1)_4
+      rect:
+        serializedVersion: 2
+        x: 856
+        y: 50
+        width: 75
+        height: 124
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 604c3057481000c60800000000000000
+      internalID: 7782221824506708998
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Radio (1)_5
+      rect:
+        serializedVersion: 2
+        x: 1057
+        y: 50
+        width: 75
+        height: 124
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 294f507cbb00a3b10800000000000000
+      internalID: 1961881394171212946
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Radio (1)_6
+      rect:
+        serializedVersion: 2
+        x: 1258
+        y: 50
+        width: 75
+        height: 124
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 068729917f717be40800000000000000
+      internalID: 5672028605749819488
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Radio (1)_7
+      rect:
+        serializedVersion: 2
+        x: 1459
+        y: 50
+        width: 75
+        height: 124
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 34e76c5e01cb2b3c0800000000000000
+      internalID: -4345203909698617789
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Radio (1)_8
+      rect:
+        serializedVersion: 2
+        x: 1660
+        y: 50
+        width: 75
+        height: 124
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9eb17184e5e4b9660800000000000000
+      internalID: 7393589380102167529
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Radio (1)_9
+      rect:
+        serializedVersion: 2
+        x: 1861
+        y: 50
+        width: 75
+        height: 124
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1ae072e5c0a71aeb0800000000000000
+      internalID: -4710349541715013983
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Radio (1)_10
+      rect:
+        serializedVersion: 2
+        x: 2062
+        y: 50
+        width: 75
+        height: 124
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f61f3bf9a5304f2f0800000000000000
+      internalID: -940122734452280977
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Radio (1)_11
+      rect:
+        serializedVersion: 2
+        x: 2263
+        y: 50
+        width: 75
+        height: 124
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6c626c3cf5e9a03c0800000000000000
+      internalID: -4392524352402872634
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Radio (1)_12
+      rect:
+        serializedVersion: 2
+        x: 2464
+        y: 50
+        width: 75
+        height: 124
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 20b48ec8022e22e40800000000000000
+      internalID: 5630311113597405954
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Radio (1)_13
+      rect:
+        serializedVersion: 2
+        x: 2665
+        y: 50
+        width: 75
+        height: 124
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 50532fc8e0ec5e540800000000000000
+      internalID: 5036658320173315333
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Radio (1)_14
+      rect:
+        serializedVersion: 2
+        x: 2866
+        y: 50
+        width: 75
+        height: 124
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c59bf4ee4d5cee4b0800000000000000
+      internalID: -5409168584103446180
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Radio (1)_15
+      rect:
+        serializedVersion: 2
+        x: 3067
+        y: 50
+        width: 75
+        height: 124
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6ca16cc02bd77f1f0800000000000000
+      internalID: -1011201387649426746
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      Radio (1)_0: -7605514749533469886
+      Radio (1)_1: -1588778486601254387
+      Radio (1)_10: -940122734452280977
+      Radio (1)_11: -4392524352402872634
+      Radio (1)_12: 5630311113597405954
+      Radio (1)_13: 5036658320173315333
+      Radio (1)_14: -5409168584103446180
+      Radio (1)_15: -1011201387649426746
+      Radio (1)_2: 5505219683075736491
+      Radio (1)_3: -4176133161662549574
+      Radio (1)_4: 7782221824506708998
+      Radio (1)_5: 1961881394171212946
+      Radio (1)_6: 5672028605749819488
+      Radio (1)_7: -4345203909698617789
+      Radio (1)_8: 7393589380102167529
+      Radio (1)_9: -4710349541715013983
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text.RegularExpressions;
 using TMPro;
 using UnityEngine;
@@ -377,9 +378,24 @@ public class HackTerminal : MonoBehaviour
 
     void Awake()
     {
+        // Duas cópias ao mesmo tempo (a da fase anterior, que sobreviveu, e a desta cena): vale a NOVA,
+        // porque só ela tem as entradas com os objetos DESTA fase. A antiga é aposentada agora.
+        if (Instancia != null && Instancia != this) Instancia.Aposentar();
+
         Instancia = this;
         _acentos = ignorarAcentos;
         _separadores = ignorarEspacosEHifens;
+    }
+
+    // Tira esta cópia de circulação NA HORA (o Destroy só vale no fim do frame, e até lá ela ainda
+    // ouviria a troca de cena e ligaria um segundo ouvinte no campo de comandos: tudo rodaria em dobro).
+    void Aposentar()
+    {
+        Parar();
+        if (commandInput != null) commandInput.onSubmit.RemoveListener(AoEnviar);
+        commandInput = null;
+        enabled = false;            // dispara o OnDisable: deixa de ouvir o sceneLoaded
+        Destroy(gameObject);
     }
 
     void OnEnable() => SceneManager.sceneLoaded += OnSceneLoaded;
@@ -952,14 +968,37 @@ public class HackTerminal : MonoBehaviour
                 if (alvo == null)
                 {
                     LogDiagnostico(nome, valor, candidatos);
-                    // Junta o que falta de TODAS as entradas (e não só da primeira)
+                    
                     var faltando = new List<string>();
-                    foreach (AlvoHackeavel c in candidatos)
-                        if (!ContextoOk(c)) faltando.Add(DescreverContexto(c));
+                    var proibidos = new List<string>();
 
-                    erro = faltando.Count > 0
-                        ? $"Você precisa ativar '{string.Join(" ou ", faltando)}' antes de usar '{nome}'."
-                        : $"Valor incorreto para '{nome}'.";
+                    foreach (AlvoHackeavel c in candidatos)
+                    {
+                        // Verifica se foi bloqueado por um contexto proibido que ficou aberto
+                        if (c.ProibidoAtivo(r => RequisitoAtivo(r, out _)))
+                        {
+                            proibidos.Add(c.contextoProibido.Replace("|", " ou ").Replace(",", " e "));
+                        }
+                        // Verifica se falta o contexto necessário
+                        else if (!ContextoOk(c))
+                        {
+                            faltando.Add(DescreverContexto(c));
+                        }
+                    }
+
+                    if (proibidos.Count > 0)
+                    {
+                        erro = $"O comando '{nome}' está bloqueado porque '{string.Join(" ou ", proibidos)}' ainda está ativo. Digite '{proibidos[0].Split(' ')[0]}:0' para fechar antes.";
+                    }
+                    else if (faltando.Count > 0)
+                    {
+                        erro = $"Você precisa ativar '{string.Join(" ou ", faltando)}' antes de usar '{nome}'.";
+                    }
+                    else
+                    {
+                        erro = $"Valor incorreto para '{nome}'. Verifique o Valor Esperado no Inspector.";
+                    }
+                    
                     return false;
                 }
             }
@@ -978,6 +1017,68 @@ public class HackTerminal : MonoBehaviour
     {
         erro = null;
         GameObject primeiro = null;
+
+        // ⬇️ LÓGICA DE FECHAMENTO EM CASCATA ⬇️
+        if (!ativar) 
+        {
+            // 1. Desliga os objetos do comando atual (Ex: o Hack Folder)
+            if (alvo != null && alvo.TemObjetos)
+            {
+                foreach (GameObject obj in alvo.objetos)
+                    if (obj != null) obj.SetActive(false);
+            }
+            else
+            {
+                GameObject achado = AcharObjeto(nome);
+                if (achado != null) achado.SetActive(false);
+            }
+
+            // 2. Procura comandos que dependem deste (Ex: Senha depende de Hack Folder)
+            foreach (AlvoHackeavel dependente in alvos)
+            {
+                if (Igual(dependente.comando, nome)) continue; // Não fecha ele mesmo de novo
+
+                bool dependeDeMim = false;
+                if (!string.IsNullOrEmpty(dependente.contextoNecessario))
+                {
+                    foreach (string[] grupo in dependente.GruposDeContexto)
+                    {
+                        foreach (string req in grupo)
+                        {
+                            if (Igual(req, nome)) { dependeDeMim = true; break; }
+                        }
+                        if (dependeDeMim) break;
+                    }
+                }
+
+                if (dependeDeMim)
+                {
+                    // A MÁGICA ESTÁ AQUI: pega o alvo EXATO que está ativo na memória
+                    if (_ativos.TryGetValue(dependente.comando, out AlvoHackeavel ativoDependente))
+                    {
+                        if (ativoDependente != null && ativoDependente.TemObjetos)
+                        {
+                            // Desliga os objetos da Senha que estava realmente aberta
+                            foreach (GameObject obj in ativoDependente.objetos)
+                                if (obj != null) obj.SetActive(false);
+                        }
+                        _ativos.Remove(dependente.comando);
+                        _quando.Remove(dependente.comando);
+                        MostrarFalaEmSequencia(ativoDependente, false);
+                    }
+                }
+            }
+
+            // 3. Limpa o estado do comando atual da memória
+            _ativos.Remove(nome);
+            _quando.Remove(nome);
+            MostrarFalaEmSequencia(alvo, false);
+
+            return true;
+        }
+        // ⬆️ FIM DA LÓGICA DE FECHAMENTO ⬆️
+
+        // --- A PARTIR DAQUI É O CÓDIGO ORIGINAL DE ABRIR (:1) ---
 
         // Entrada "exclusiva": esconde o resultado anterior do mesmo comando ANTES de mostrar o novo
         if (ativar && alvo != null && alvo.substituiResultadoAnterior
@@ -1009,7 +1110,6 @@ public class HackTerminal : MonoBehaviour
 
         if (primeiro == null)
         {
-            // A entrada existe e foi aceita, mas os slots de Objetos estão vazios (None): erro de configuração, não de digitação.
             erro = (alvo != null && alvo.TemObjetos)
                 ? $"A entrada '{nome}' foi aceita, mas os slots de Objetos dela estão vazios (None). Arraste os objetos no Inspector."
                 : $"Não achei nada chamado '{nome}'. Confira se digitou igualzinho.";

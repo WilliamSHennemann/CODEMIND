@@ -52,6 +52,10 @@ public class DialogueBox : MonoBehaviour
     [Tooltip("Segurança: se a animação não chegar no frame de pausa em X segundos, o diálogo começa mesmo assim. 0 = espera para sempre.")]
     [SerializeField, Min(0f)] private float tempoMaxEsperaAnimacao = 10f;
 
+    [Header("Ao terminar")]
+    [Tooltip("Ativa este objeto quando o diálogo terminar e a animação acima também tiver terminado. Se não houver animação, ativa ao fechar o diálogo.")]
+    [SerializeField] private GameObject objetoAtivarAoTerminar;
+
     private bool esperandoAnimacao = false;
     private bool fechando = false;
     private Coroutine sumirSozinhoCoroutine;
@@ -427,5 +431,17 @@ public class DialogueBox : MonoBehaviour
         textoExibido.text = "";
 
         AplicarRadioAoTerminar();
+
+        if (objetoAtivarAoTerminar != null)
+            StartCoroutine(AtivarObjetoQuandoTudoTerminar());
+    }
+
+    private IEnumerator AtivarObjetoQuandoTudoTerminar()
+    {
+        while (animacaoParaEsperar != null && !animacaoParaEsperar.Terminou)
+            yield return null;
+
+        if (objetoAtivarAoTerminar != null)
+            objetoAtivarAoTerminar.SetActive(true);
     }
 }
