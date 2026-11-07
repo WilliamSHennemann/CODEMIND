@@ -251,6 +251,11 @@ public class HackTerminal : MonoBehaviour
     public event Action<string, string> AoComandoExecutado;   // nome e valor de um comando que FUNCIONOU (ex.: "Inspection", "1")
     public event Action AoMudarComandosUsados;                // o caderno de comandos ganhou ou perdeu uma linha
 
+    // Chamado ANTES de um código rodar. Qualquer ouvinte pode devolver true para BLOQUEAR o código:
+    // nada é executado e ele não entra no histórico. Quem bloqueia é quem mostra a mensagem ao jogador.
+    // (Usado pelo VerificarOrdemDoBloco. Lembre de se desinscrever no OnDisable.)
+    public event Func<string, bool> AntesDeExecutar;
+
     class Linha
     {
         public string texto;
@@ -483,6 +488,13 @@ public class HackTerminal : MonoBehaviour
         {
             AoErro?.Invoke(0, "Aguarde o programa terminar.");
             return;
+        }
+
+        // Algum ouvinte pode recusar este código antes de ele rodar
+        if (AntesDeExecutar != null)
+        {
+            foreach (Delegate d in AntesDeExecutar.GetInvocationList())
+                if (((Func<string, bool>)d)(codigo)) return;
         }
 
         RegistrarHistorico(codigo);

@@ -1484,7 +1484,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Uma foto borrada que nao da para ver nada
+  m_text: Uma foto muito desfocada. Parece que alguem se mexeu na hora em que a foto
+    foi tirada. E impossivel ver o que era.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: c3bca4b3692c7474cacd9aee9b7214c3, type: 2}
   m_sharedMaterial: {fileID: 380175041894150474, guid: c3bca4b3692c7474cacd9aee9b7214c3, type: 2}
@@ -2890,7 +2891,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Varias datas antigas que voce nao se lembra oque eram
+  m_text: Varias datas antigas anotadas. Por algum motivo, voce nao consegue se lembrar
+    do que elas eram.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: c3bca4b3692c7474cacd9aee9b7214c3, type: 2}
   m_sharedMaterial: {fileID: 380175041894150474, guid: c3bca4b3692c7474cacd9aee9b7214c3, type: 2}
@@ -4491,7 +4493,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'O ultimo arquivo que voce colocou aqui, contem uma senha: VENTO-906'
+  m_text: 'O ultimo arquivo que voce colocou aqui contem uma senha: VENTO-906.'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: c3bca4b3692c7474cacd9aee9b7214c3, type: 2}
   m_sharedMaterial: {fileID: 380175041894150474, guid: c3bca4b3692c7474cacd9aee9b7214c3, type: 2}
@@ -6905,13 +6907,15 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: '1 - IA para detectar falhas em motores eletricos
+  m_text: 'Anotacoes de projetos:
 
-    2 - Jogo RPG 2d
-    de concientizacao a depressao
+    1 - IA para detectar falhas em motores eletricos.
 
-    3 - Antivirus gratis focado em defesa contra
-    hackers'
+    2
+    - Jogo RPG 2D sobre conscientizacao da depressao.
+
+    3 - Antivirus gratis focado
+    em defesa contra hackers.'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: c3bca4b3692c7474cacd9aee9b7214c3, type: 2}
   m_sharedMaterial: {fileID: 380175041894150474, guid: c3bca4b3692c7474cacd9aee9b7214c3, type: 2}
@@ -7147,7 +7151,7 @@ MonoBehaviour:
   - 'Jerry: Procure em outro arquivo. Tente Hack Document com outro nome.'
   atrasoPorCaractere: 0.03
   atrasoParaSumir: 3
-  sumirSozinhoNaUltimaLinha: 0
+  sumirSozinhoNaUltimaLinha: 1
   tempoParaSumirSozinho: 3
   avancarComClique: 1
   avancarSomenteClicandoNoRadio: 1
@@ -8803,7 +8807,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Colecoes de fotos de aniversarios diferentes
+  m_text: Fotos de varias festas de aniversario. Voce ve rostos sorridentes, decoracoes
+    e o brilho das velas sendo apagadas.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: c3bca4b3692c7474cacd9aee9b7214c3, type: 2}
   m_sharedMaterial: {fileID: 380175041894150474, guid: c3bca4b3692c7474cacd9aee9b7214c3, type: 2}
@@ -9669,7 +9674,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Arquivo explicando o desenvolvimento de um Antivirus
+  m_text: Arquivo com explicacoes tecnicas sobre a criacao e o desenvolvimento do
+    seu Antivirus.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: c3bca4b3692c7474cacd9aee9b7214c3, type: 2}
   m_sharedMaterial: {fileID: 380175041894150474, guid: c3bca4b3692c7474cacd9aee9b7214c3, type: 2}
@@ -10344,10 +10350,11 @@ MonoBehaviour:
   caixaDeTexto: {fileID: 422352686}
   textoExibido: {fileID: 945383841}
   linhas:
-  - 'Jerry: Ei, eu nunca iria te hackear e cair num truque tao facil assim.'
+  - 'Jerry: Ei, eu jamais te hackearia. E voce acha mesmo que eu cairia num truque
+    tao facil?'
   atrasoPorCaractere: 0.03
   atrasoParaSumir: 5
-  sumirSozinhoNaUltimaLinha: 0
+  sumirSozinhoNaUltimaLinha: 1
   tempoParaSumirSozinho: 3
   avancarComClique: 1
   avancarSomenteClicandoNoRadio: 1
@@ -11101,7 +11108,7 @@ GameObject:
   - component: {fileID: 718388354}
   - component: {fileID: 718388355}
   m_Layer: 0
-  m_Name: Trigger4 (1)
+  m_Name: Trigger5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11139,10 +11146,10 @@ MonoBehaviour:
   caixaDeTexto: {fileID: 422352686}
   textoExibido: {fileID: 945383841}
   linhas:
-  - 'Jerry: Maldita IA.'
+  - 'Jerry: Maldita IA. Isso nao era pra ter acontecido.'
   atrasoPorCaractere: 0.03
   atrasoParaSumir: 3
-  sumirSozinhoNaUltimaLinha: 0
+  sumirSozinhoNaUltimaLinha: 1
   tempoParaSumirSozinho: 3
   avancarComClique: 1
   avancarSomenteClicandoNoRadio: 1
@@ -11513,7 +11520,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Varias fotos de um gato preto rechonchudo
+  m_text: Varias fotos de um gato preto rechonchudo. Em algumas ele dorme enrolado,
+    em outras parece estar pedindo comida.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: c3bca4b3692c7474cacd9aee9b7214c3, type: 2}
   m_sharedMaterial: {fileID: 380175041894150474, guid: c3bca4b3692c7474cacd9aee9b7214c3, type: 2}
@@ -14484,7 +14492,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Arquivo explicando a criacao incompleta do jogo Struggling Hope
+  m_text: Arquivo detalhando a criacao do jogo Struggling Hope, um projeto que nunca
+    foi finalizado.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: c3bca4b3692c7474cacd9aee9b7214c3, type: 2}
   m_sharedMaterial: {fileID: 380175041894150474, guid: c3bca4b3692c7474cacd9aee9b7214c3, type: 2}
@@ -15803,11 +15812,11 @@ MonoBehaviour:
   caixaDeTexto: {fileID: 422352686}
   textoExibido: {fileID: 945383841}
   linhas:
-  - 'Jerry: Ok, Ai esta o programa, vamos o executar e voltar aos backups'
-  - 'Jerry: Mas antes disso, abre esse recado, vamos ver oque ele tem a falar.'
+  - 'Jerry: Ok, aqui esta o programa. Vamos executa-lo e voltar aos backups.'
+  - 'Jerry: Mas antes disso, abra este recado. Vamos ver o que ele tem a dizer.'
   atrasoPorCaractere: 0.03
   atrasoParaSumir: 3
-  sumirSozinhoNaUltimaLinha: 0
+  sumirSozinhoNaUltimaLinha: 1
   tempoParaSumirSozinho: 3
   avancarComClique: 1
   avancarSomenteClicandoNoRadio: 1
@@ -16801,7 +16810,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Uma colecao de fotos de viagens para praias, parques, etc.
+  m_text: Uma pasta cheia de fotos de viagens. Areia da praia, arvores de parques
+    e momentos de descanso.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: c3bca4b3692c7474cacd9aee9b7214c3, type: 2}
   m_sharedMaterial: {fileID: 380175041894150474, guid: c3bca4b3692c7474cacd9aee9b7214c3, type: 2}
@@ -17219,8 +17229,9 @@ MonoBehaviour:
   caixaDeTexto: {fileID: 422352686}
   textoExibido: {fileID: 945383841}
   linhas:
-  - 'Jerry: Tem varios arquivos aqui, algum desses tera a senha para a proxima pasta.'
-  - 'Jerry: Boo sorte.'
+  - 'Jerry: Tem varios arquivos aqui. Algum deles deve ter a senha para a proxima
+    pasta.'
+  - 'Jerry: Boa sorte.'
   atrasoPorCaractere: 0.03
   atrasoParaSumir: 3
   sumirSozinhoNaUltimaLinha: 1
@@ -17966,8 +17977,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Uma foto com efeitos de alien contendo voce, Jerry e uma pessoa que voce
-    nao se lembra
+  m_text: Uma selfie estranha com efeitos de alienigenas. Voce aparece ao lado de
+    Jerry e de uma pessoa desconhecida. Por que essa memoria parece tao distante?
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: c3bca4b3692c7474cacd9aee9b7214c3, type: 2}
   m_sharedMaterial: {fileID: 380175041894150474, guid: c3bca4b3692c7474cacd9aee9b7214c3, type: 2}
@@ -18994,7 +19005,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Foto contendo uma senha: NOITE-310 '
+  m_text: 'Uma foto que parece ter sido tirada com pressa. No fundo, da para ler
+    uma anotacao: a senha NOITE-310.'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: c3bca4b3692c7474cacd9aee9b7214c3, type: 2}
   m_sharedMaterial: {fileID: 380175041894150474, guid: c3bca4b3692c7474cacd9aee9b7214c3, type: 2}
@@ -20305,8 +20317,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Arquivo detalhando varios rascunhos de projetos diferentes que nunca chegaram
-    ao fim
+  m_text: Arquivo detalhando varios rascunhos de projetos. Ideias que voce teve no
+    passado, mas que nunca chegaram ao fim.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: c3bca4b3692c7474cacd9aee9b7214c3, type: 2}
   m_sharedMaterial: {fileID: 380175041894150474, guid: c3bca4b3692c7474cacd9aee9b7214c3, type: 2}
@@ -20443,8 +20455,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Arquivo que voce criou caso Jerry tentasse te hackear, tem varios xingamentos
-    nele.
+  m_text: Voce criou este arquivo com varios xingamentos, apenas como uma armadilha
+    caso Jerry tentasse te hackear.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: c3bca4b3692c7474cacd9aee9b7214c3, type: 2}
   m_sharedMaterial: {fileID: 380175041894150474, guid: c3bca4b3692c7474cacd9aee9b7214c3, type: 2}
@@ -20770,11 +20782,11 @@ MonoBehaviour:
   caixaDeTexto: {fileID: 422352686}
   textoExibido: {fileID: 945383841}
   linhas:
-  - 'Jerry: Agora que achamos a senha para o Diario.'
-  - 'Jerry: Feche o documento e a pasta e vamos continuar.'
+  - 'Jerry: Agora que achamos a senha para o Diario, podemos abri-lo.'
+  - 'Jerry: Feche o documento e a pasta. Vamos continuar.'
   atrasoPorCaractere: 0.03
   atrasoParaSumir: 3
-  sumirSozinhoNaUltimaLinha: 0
+  sumirSozinhoNaUltimaLinha: 1
   tempoParaSumirSozinho: 3
   avancarComClique: 1
   avancarSomenteClicandoNoRadio: 1
@@ -21375,8 +21387,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Lendo o arquivo, voce se lembra de seu primeiro dia trabalhando com Jerry
-    e seus companheiros de equipe
+  m_text: Lendo o arquivo, voce se lembra do seu primeiro dia trabalhando com Jerry
+    e seus companheiros de equipe.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: c3bca4b3692c7474cacd9aee9b7214c3, type: 2}
   m_sharedMaterial: {fileID: 380175041894150474, guid: c3bca4b3692c7474cacd9aee9b7214c3, type: 2}
@@ -21947,7 +21959,7 @@ MonoBehaviour:
   - comando: hack document
     objetos:
     - {fileID: 0}
-    - {fileID: 445283568}
+    - {fileID: 1489240241}
     - {fileID: 1583506267}
     contextoNecessario: Diario
     contextoProibido: 
@@ -22019,7 +22031,7 @@ MonoBehaviour:
     duracaoAbertura: 1
   - comando: Senha
     objetos:
-    - {fileID: 718388353}
+    - {fileID: 1775877089}
     - {fileID: 58974541}
     contextoNecessario: Hack Folder
     contextoProibido: 
@@ -22040,7 +22052,7 @@ MonoBehaviour:
     - {fileID: 320506956}
     - {fileID: 1153601848}
     contextoNecessario: Projetos
-    contextoProibido: 
+    contextoProibido: Fotos | Diario | Nucleo
     valorEsperado: True | 1
     moverCamera: 0
     substituiResultadoAnterior: 1
@@ -23609,17 +23621,18 @@ MonoBehaviour:
   caixaDeTexto: {fileID: 422352686}
   textoExibido: {fileID: 945383841}
   linhas:
-  - 'Jerry: Ok, nos temos que entrar no nucleo agora.'
-  - 'Jerry: Voce tinha criado um script para fazer seu pc voltar com um versao antiga,
-    lembra'
-  - 'Jerry: Mas voce colocou um seguranca pesada nela em.'
-  - 'Jerry: Voce tera que entrar em projetos, pegar a senha.'
-  - 'Jerry: Ir para Fotos, pegar a senha, ir para Diario e pegar a senha do Nucleo'
-  - 'Jerry: Bom, boa sorte, fazendo tantas vezes voce concerteza lembrara dos comandos.'
-  - 'Jerry: Se esquecer so clicar no botao a esquerda da barra.'
+  - 'Jerry: Ok, temos que entrar no Nucleo agora.'
+  - 'Jerry: Voce tinha criado um script para fazer seu pc voltar para uma versao
+    antiga, lembra?'
+  - 'Jerry: Mas voce colocou uma seguranca pesada nela.'
+  - 'Jerry: Voce vai ter que entrar em Projetos e pegar a senha.'
+  - 'Jerry: Ir para Fotos, pegar a senha, ir para o Diario e pegar a senha do Nucleo.'
+  - 'Jerry: Bom, boa sorte. Fazendo isso tantas vezes, voce com certeza vai lembrar
+    dos comandos.'
+  - 'Jerry: Se esquecer, so clicar no botao a esquerda da barra.'
   atrasoPorCaractere: 0.03
   atrasoParaSumir: 3
-  sumirSozinhoNaUltimaLinha: 0
+  sumirSozinhoNaUltimaLinha: 1
   tempoParaSumirSozinho: 3
   avancarComClique: 1
   avancarSomenteClicandoNoRadio: 1
@@ -24353,8 +24366,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Uma lista que voce criou quando crianca de todas as coisas que compraria
-    quando adulto
+  m_text: Uma lista de desejos da sua infancia, com tudo o que voce planejava comprar
+    quando crescesse.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: c3bca4b3692c7474cacd9aee9b7214c3, type: 2}
   m_sharedMaterial: {fileID: 380175041894150474, guid: c3bca4b3692c7474cacd9aee9b7214c3, type: 2}
@@ -24574,11 +24587,11 @@ MonoBehaviour:
   caixaDeTexto: {fileID: 422352686}
   textoExibido: {fileID: 945383841}
   linhas:
-  - 'Jerry: Agora que achamos a senha para as Fotos.'
-  - 'Jerry: Feche o documento e a pasta e vamos continuar.'
+  - ' Jerry: Agora que achamos a senha das fotos, podemos abri-las.'
+  - 'Jerry: Feche o documento e a pasta. Vamos continuar.'
   atrasoPorCaractere: 0.03
   atrasoParaSumir: 3
-  sumirSozinhoNaUltimaLinha: 0
+  sumirSozinhoNaUltimaLinha: 1
   tempoParaSumirSozinho: 3
   avancarComClique: 1
   avancarSomenteClicandoNoRadio: 1
@@ -25152,6 +25165,72 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1772011536}
   m_CullTransparentMesh: 1
+--- !u!1 &1775877089
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1775877090}
+  - component: {fileID: 1775877091}
+  m_Layer: 0
+  m_Name: Trigger4
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &1775877090
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1775877089}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 2.1098094, y: -0.29217285, z: 0}
+  m_LocalScale: {x: 0.90909094, y: 1.2345679, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2025883604}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1775877091
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1775877089}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3764d475bdd223146949d067ac8edf27, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DialogueBox
+  iniciarAoAtivar: 1
+  iniciarComClique: 0
+  caixaDeTexto: {fileID: 422352686}
+  textoExibido: {fileID: 945383841}
+  linhas:
+  - 'Jerry: Ok, aqui esta o programa. Vamos executar ele e voltar aos backups.'
+  - 'Jerry: Mas antes disso, abra esse recado. Vamos ver o que ele tem a falar.'
+  atrasoPorCaractere: 0.03
+  atrasoParaSumir: 3
+  sumirSozinhoNaUltimaLinha: 1
+  tempoParaSumirSozinho: 3
+  avancarComClique: 1
+  avancarSomenteClicandoNoRadio: 1
+  depurarClique: 0
+  teclaAvancar: 32
+  Radio: {fileID: 1783240289}
+  exigirRadioLigadoParaClicar: 1
+  radioAoComecarDialogo: 1
+  radioAoTerminarDialogo: 2
+  animacaoParaEsperar: {fileID: 0}
+  tempoMaxEsperaAnimacao: 10
+  objetoAtivarAoTerminar: {fileID: 0}
 --- !u!1 &1776918676
 GameObject:
   m_ObjectHideFlags: 0
@@ -26922,11 +27001,11 @@ MonoBehaviour:
   caixaDeTexto: {fileID: 422352686}
   textoExibido: {fileID: 945383841}
   linhas:
-  - 'Jerry: Agora que achamos a senha para as Fotos.'
-  - 'Jerry: Feche o documento e a pasta e vamos continuar.'
+  - 'Jerry: Agora que achamos a senha para as Fotos, podemos abri-las.'
+  - 'Jerry: Feche o documento e a pasta. Vamos continuar.'
   atrasoPorCaractere: 0.03
   atrasoParaSumir: 3
-  sumirSozinhoNaUltimaLinha: 0
+  sumirSozinhoNaUltimaLinha: 1
   tempoParaSumirSozinho: 3
   avancarComClique: 1
   avancarSomenteClicandoNoRadio: 1
@@ -27141,10 +27220,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Um arquivo explicando o metodo de trancar uma pasta por seguranca.
-
-    escondido
-    voce acha uma senha: SOL-815'
+  m_text: 'Instrucoes sobre como trancar uma pasta por seguranca. No final do texto,
+    voce encontra uma senha escondida: SOL-815.'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: c3bca4b3692c7474cacd9aee9b7214c3, type: 2}
   m_sharedMaterial: {fileID: 380175041894150474, guid: c3bca4b3692c7474cacd9aee9b7214c3, type: 2}
@@ -27652,8 +27729,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Lendo o arquivo voce se lembra da vez que quase foi despedido por usar
-    um aplicativo nao seguro
+  m_text: Lendo o arquivo, voce se lembra da vez em que quase foi despedido por usar
+    um aplicativo nao seguro.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: c3bca4b3692c7474cacd9aee9b7214c3, type: 2}
   m_sharedMaterial: {fileID: 380175041894150474, guid: c3bca4b3692c7474cacd9aee9b7214c3, type: 2}
@@ -28360,6 +28437,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 7878350319992209165, guid: 3e8d641dca865ec4d94b2cd65f6c9a11, type: 3}
       insertIndex: -1
       addedObject: {fileID: 718388354}
+    - targetCorrespondingSourceObject: {fileID: 7878350319992209165, guid: 3e8d641dca865ec4d94b2cd65f6c9a11, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1775877090}
     - targetCorrespondingSourceObject: {fileID: 7878350319992209165, guid: 3e8d641dca865ec4d94b2cd65f6c9a11, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2107099399}

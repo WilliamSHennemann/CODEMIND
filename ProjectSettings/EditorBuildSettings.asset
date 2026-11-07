@@ -16,10 +16,10 @@ EditorBuildSettings:
     guid: 5f8f435ad324d444c97162140fc51cd0
   - enabled: 1
     path: Assets/Scenes/Segunda_Fase.unity
-    guid: e4322984f31e7d64fa488acfed2e0527
-  - enabled: 0
+    guid: a96d37c8ca54de743b3d5e1fb958008a
+  - enabled: 1
     path: Assets/Scenes/Terceira_Fase.unity
-    guid: 51ca69b541c0ac84d804775124e6ffae
+    guid: bccce52a2cb2778409c7c81547b3a047
   - enabled: 0
     path: Assets/Scenes/Quarta_fase.unity
     guid: ba921da7c32341d44a6b8d939c28f6e5
