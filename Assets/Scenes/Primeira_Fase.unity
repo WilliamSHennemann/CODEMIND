@@ -19023,13 +19023,17 @@ MonoBehaviour:
   - comando: Movimento
     descricao: 'Seleciona a pasta escolhida. Ex: "Nome-pasta:1"'
   - comando: Hack Folder
-    descricao: 'Hackeia a pasta selecionada. Ex: "Hack Folder:Nome-pasta"'
+    descricao: 'Hackeia a pasta selecionada. Ex: "Hack Folder:True/1
+
+      "'
   - comando: Hack document
     descricao: 'Hackeia o documento selecionado. Ex: "Hack Document:Nome-documento"'
   - comando: Inspection
     descricao: 'Inspeciona o texto do documento selecionado. Ex: "Inspection:1"'
   - comando: Senha
     descricao: 'Insere a senha na pasta ou documento selecionado. Ex: "Senha:1234"'
+  - comando: Fechar
+    descricao: 'Insere 0 no final de um comando. Ex: "Comando:0"'
   alvos:
   - comando: Inspection
     objetos:
@@ -20522,8 +20526,8 @@ MonoBehaviour:
   - 'Jerry: Talvez uma dessas senhas abra seu cofre. Lembra dele?'
   - 'Jerry: O cofre guarda o backup inteiro do PC. Se abrir, da pra ver o que sobrou.'
   - 'Jerry: Pelo menos eu acho. Faz tempo que voce nao mexe nisso.'
-  - "Jerry: Viu o botao a direita da barra? Ele guarda os comandos que voce ja usou.
-    Caso Esque\xE7a algum, clique para reutilizar."
+  - 'Jerry: Viu o botao a direita da barra? Ele guarda os comandos que voce ja usou.
+    Caso Esqueca algum, clique para reutilizar.'
   - '"Jerry: E o botao da esquerda, mostra a lista de comandos e explicacoes."'
   atrasoPorCaractere: 0.03
   atrasoParaSumir: 3
